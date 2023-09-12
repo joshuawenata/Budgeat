@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "281525565155",
+    "project_id": "budgeat-25e02",
+    "storage_bucket": "budgeat-25e02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281525565155:android:8e0d5c1682005b8d4437d6",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXKWh_vDUBN-SlmllpDlGAFf9M5XqSBLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

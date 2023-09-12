@@ -3,16 +3,8 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class Register : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +12,42 @@ class Register : ComponentActivity() {
         setContentView(R.layout.activity_register)
     }
 
-    fun toLogin(view: View) {
-        val intent = Intent(this, Login::class.java)
-        startActivity(intent)
+    fun CreateAccount(view: View) {
+        val fullnameEditText: EditText = findViewById(R.id.register_fullname)
+        val emailEditText: EditText = findViewById(R.id.register_email)
+        val passwordEditText:EditText = findViewById(R.id.register_password)
+
+        val name = fullnameEditText.text.toString()
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+
+        val myRef = Function().getDBRef("user")
+        val userKey: String = myRef.push().key.toString()
+
+        var flag = true
+        if (name.isEmpty()) {
+            fullnameEditText.error = "Please fill the name field"
+            flag = false
+        }else if (email.isEmpty()) {
+            fullnameEditText.error = "Please fill the email field"
+            flag = false
+        }else if (password.isEmpty()) {
+            fullnameEditText.error = "Please fill the password field"
+            flag = false
+        }else{
+            flag = true
+        }
+
+        if(flag){
+            Function().writeDB("user", "$userKey/name",name)
+            Function().writeDB("user", "$userKey/email",email)
+            Function().writeDB("user", "$userKey/password",password)
+
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
 }

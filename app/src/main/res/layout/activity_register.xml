@@ -48,6 +48,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <EditText
+                android:id="@+id/register_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Enter your full name"
@@ -78,6 +79,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <EditText
+                android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Emailname@email.com"
@@ -107,6 +109,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <EditText
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Password"
@@ -132,7 +135,7 @@
                 android:src="@drawable/register_registerbtn"
                 android:background="@null"
                 android:contentDescription="Login Button"
-                android:onClick="toLogin"/>
+                android:onClick="CreateAccount"/>
 
         </LinearLayout>
 
