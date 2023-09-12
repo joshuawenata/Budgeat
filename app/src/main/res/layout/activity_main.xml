@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/landingpage_login"
                 android:background="@null"
-                android:contentDescription="Login Button"/>
+                android:contentDescription="Login Button"
+                android:onClick="toLogin"/>
 
         </LinearLayout>
 
