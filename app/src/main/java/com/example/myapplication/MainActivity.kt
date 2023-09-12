@@ -11,6 +11,10 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    fun toRegister(view: View) {
+        val intent = Intent(this, Register::class.java)
+        startActivity(intent)
+    }
     fun toLogin(view: View) {
         val intent = Intent(this, Login::class.java)
         startActivity(intent)
