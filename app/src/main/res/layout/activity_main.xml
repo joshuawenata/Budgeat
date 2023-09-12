@@ -51,7 +51,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/landingpage_createaccount"
                 android:background="@null"
-                android:contentDescription="Create Account Button"/>
+                android:contentDescription="Create Account Button"
+                android:onClick="toRegister"/>
 
         </LinearLayout>
 
