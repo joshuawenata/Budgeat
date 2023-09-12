@@ -48,6 +48,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <EditText
+                android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Emailname@email.com"
@@ -77,6 +78,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <EditText
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Password"
@@ -116,7 +118,7 @@
                 android:src="@drawable/landingpage_login"
                 android:background="@null"
                 android:contentDescription="Login Button"
-                android:onClick="toLogin"/>
+                android:onClick="LoginToApp"/>
 
         </LinearLayout>
 
