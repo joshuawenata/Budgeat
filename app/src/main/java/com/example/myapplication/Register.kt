@@ -48,6 +48,8 @@ class Register : ComponentActivity() {
     }
 
     private fun registerAuth(userKey: String, name: String, email: String, password:String){
+        val intent = intent
+        val role = intent.getStringExtra("role")
         val auth: FirebaseAuth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -55,11 +57,14 @@ class Register : ComponentActivity() {
                     // User registration successful, now write user data to the database
                     Function().writeDB("user", "$userKey/name", name)
                     Function().writeDB("user", "$userKey/email", email)
+                    if (role != null) {
+                        Function().writeDB("user", "$userKey/role", role)
+                    }
 
                     // Start the login activity
-                    val intent = Intent(this, Login::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                    finish()
+                    finishAffinity()
                 } else {
                     // User registration failed, display an error message
                     val errorMessage = task.exception?.message
