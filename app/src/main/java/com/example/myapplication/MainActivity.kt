@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun toRegister(view: View) {
-        val intent = Intent(this, Register::class.java)
+        val intent = Intent(this, PickRole::class.java)
         startActivity(intent)
     }
     fun toLogin(view: View) {

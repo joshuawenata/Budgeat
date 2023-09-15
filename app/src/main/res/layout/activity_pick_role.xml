@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PickRole">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="100dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pick Role"
+                android:textAlignment="center"
+                android:textColor="#32B768"
+                android:textSize="25sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="100dp">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pickrole_customer"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@null"
+                    android:contentDescription="Customer"
+                    android:onClick="pickCustomer"/>
+
+                <ImageView
+                    android:id="@+id/pickrole_checkcustomer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pickrole_merchant"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@null"
+                    android:contentDescription="Merchant"
+                    android:onClick="pickMerchant"/>
+
+                <ImageView
+                    android:id="@+id/pickrole_checkmerchant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="50dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/resource_continue"
+                android:background="@null"
+                android:contentDescription="Continue Button"
+                android:onClick="continueRegistration"
+                tools:ignore="OnClick" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

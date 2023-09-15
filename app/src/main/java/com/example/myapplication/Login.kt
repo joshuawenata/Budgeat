@@ -51,7 +51,7 @@ class Login : ComponentActivity() {
                     // Login successful
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                    finish()
+                    finishAffinity()
                 } else {
                     // Login failed
                     val errorMessage = task.exception?.message
