@@ -13,6 +13,11 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".HomeMerchant"
+            android:exported="false"
+            android:label="@string/title_activity_admin_home"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".PickRole"
             android:exported="false"
             android:label="@string/title_activity_pick_role"
