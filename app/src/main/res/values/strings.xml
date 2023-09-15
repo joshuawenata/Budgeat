@@ -3,4 +3,5 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_pick_role">PickRole</string>
+    <string name="title_activity_admin_home">AdminHome</string>
 </resources>

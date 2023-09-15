@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Full Name"
+                android:text="Full Name / Company Name"
                 android:textColor="#9CA3AF"
                 android:textSize="15sp"
                 tools:ignore="MissingConstraints"
@@ -51,12 +51,12 @@
                 android:id="@+id/register_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Enter your full name"
+                android:hint="Enter your full name / company name"
                 android:textColor="#374151"
                 android:textSize="15sp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:background="@drawable/edittext_bkg"/>
+                android:background="@drawable/input_outline"/>
 
         </LinearLayout>
 
@@ -87,7 +87,7 @@
                 android:textSize="15sp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:background="@drawable/edittext_bkg"/>
+                android:background="@drawable/input_outline"/>
 
         </LinearLayout>
 
@@ -118,7 +118,7 @@
                 android:textSize="15sp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:background="@drawable/edittext_bkg"/>
+                android:background="@drawable/input_outline"/>
 
         </LinearLayout>
 
