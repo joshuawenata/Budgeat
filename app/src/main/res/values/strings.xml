@@ -7,4 +7,7 @@
     <string name="title_activity_home_customer">HomeCustomer</string>
     <string name="menu_name">Menu Name</string>
     <string name="menu_description">Menu Description</string>
+    <string name="title_activity_add_menu">AddMenu</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_user">User</string>
 </resources>

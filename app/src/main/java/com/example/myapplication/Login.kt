@@ -1,14 +1,13 @@
 package com.example.myapplication
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.annotation.NonNull
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -49,9 +48,26 @@ class Login : ComponentActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Login successful
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finishAffinity()
+                    var role: String = ""
+                    Function().readUserDB("user") { value ->
+                        if (value != null) {
+                            role = value.role
+                            Log.d(ContentValues.TAG, role)
+                        } else {
+                            // Handle the case where the data couldn't be retrieved
+                        }
+                    }
+
+                    if(role == "customer"){
+                        val intent = Intent(this, HomeCustomer::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    }else{
+                        val intent = Intent(this, HomeMerchant::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    }
+
                 } else {
                     // Login failed
                     val errorMessage = task.exception?.message

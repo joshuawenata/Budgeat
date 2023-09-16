@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,4 +16,10 @@ class HomeMerchant : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_merchant)
     }
+
+    fun toAddMenu(view: View){
+        val intent = Intent(this, AddMenu::class.java)
+        startActivity(intent)
+    }
+
 }
