@@ -10,4 +10,5 @@
     <string name="title_activity_add_menu">AddMenu</string>
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_user">User</string>
+    <string name="title_activity_adapter">Adapter</string>
 </resources>
