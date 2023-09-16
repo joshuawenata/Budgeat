@@ -1,7 +1,6 @@
 package com.example.myapplication.`object`
-class User {
+class User(email: String, name: String, role: String) {
     var email: String = ""
     var name: String = ""
     var role: String = ""
-    var userKey: String = ""
 }

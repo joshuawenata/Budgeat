@@ -17,6 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class AddMenu : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,17 +52,10 @@ class AddMenu : ComponentActivity() {
         }
 
         if(flag){
-            val myRef = Function().getDBRef("menu")
+            val myRef = Function().getDBRef("user")
             val menuKey: String = myRef.push().key.toString()
-            var userKey: String = ""
-            Function().readUserDB("user") { value ->
-                if (value != null) {
-                    userKey = value.userKey
-                    Log.d(TAG, userKey)
-                } else {
-                    // Handle the case where the data couldn't be retrieved
-                }
-            }
+            val userKey: String? = Function().currentUser()?.uid
+
             Function().writeDB("menu", "$userKey/$menuKey/menuName",menuName)
             Function().writeDB("menu", "$userKey/$menuKey/menuDescription",menuDescription)
             Function().writeDB("menu", "$userKey/$menuKey/menuStock",menuStock)

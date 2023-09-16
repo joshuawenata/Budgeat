@@ -26,7 +26,6 @@ class Register : ComponentActivity() {
         val password = passwordEditText.text.toString()
 
         val myRef = Function().getDBRef("user")
-        val userKey: String = myRef.push().key.toString()
 
         var flag = true
         if (name.isEmpty()) {
@@ -43,21 +42,21 @@ class Register : ComponentActivity() {
         }
 
         if(flag){
-            registerAuth(userKey, name, email, password)
+            registerAuth(name, email, password)
         }
     }
 
-    private fun registerAuth(userKey: String, name: String, email: String, password:String){
+    private fun registerAuth(name: String, email: String, password:String){
         val intent = intent
         val role = intent.getStringExtra("role")
         val auth: FirebaseAuth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    val userKey: String? = auth.uid
                     // User registration successful, now write user data to the database
                     Function().writeDB("user", "$userKey/name", name)
                     Function().writeDB("user", "$userKey/email", email)
-                    Function().writeDB("user", "$userKey/userKey", userKey)
                     if (role != null) {
                         Function().writeDB("user", "$userKey/role", role)
                     }
