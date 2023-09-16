@@ -57,14 +57,22 @@ class Register : ComponentActivity() {
                     // User registration successful, now write user data to the database
                     Function().writeDB("user", "$userKey/name", name)
                     Function().writeDB("user", "$userKey/email", email)
+                    Function().writeDB("user", "$userKey/userKey", userKey)
                     if (role != null) {
                         Function().writeDB("user", "$userKey/role", role)
                     }
 
-                    // Start the login activity
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finishAffinity()
+
+                    if (role == "merchant"){
+                        val intent = Intent(this, HomeMerchant::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    }else{
+                        val intent = Intent(this, HomeCustomer::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    }
+
                 } else {
                     // User registration failed, display an error message
                     val errorMessage = task.exception?.message
