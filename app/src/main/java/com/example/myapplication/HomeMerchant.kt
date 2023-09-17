@@ -1,9 +1,10 @@
 package com.example.myapplication
 
-import com.example.myapplication.adapter.AdapterAddStock
+import com.example.myapplication.adapter.AdapterWithButton
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -20,10 +21,10 @@ class HomeMerchant : ComponentActivity() {
             // Now you can use the menuList or pass it to your RecyclerView setup code
             val recyclerView = findViewById<RecyclerView>(R.id.menu_recyclerview)
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            val newAdapter = AdapterAddStock(
+            val newAdapterWithButton = AdapterWithButton(
                 this,
                 menuList,
-                R.layout.card_menu,
+                R.layout.card_menu_with_button,
                 { itemView, item ->
                     val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name)
                     val menuDescriptionTextView = itemView.findViewById<TextView>(R.id.card_menu_description)
@@ -44,7 +45,7 @@ class HomeMerchant : ComponentActivity() {
                 }
             )
 
-            recyclerView.adapter = newAdapter
+            recyclerView.adapter = newAdapterWithButton
         }
 
 

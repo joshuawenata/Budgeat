@@ -37,19 +37,19 @@ class Function {
     fun fetchUserData(callback: (ArrayList<User>) -> Unit) {
         val myRef = Function().getDBRef("user")
         val userKey: String? = Function().getCurrentUserKey()
-        val userDataList = ArrayList<User>()
+        val userDataList: ArrayList<User> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
-                    val uid = ds.key
-                    if (userKey == uid){
+                    if (userKey==ds.child("userKey").getValue(String::class.java)){
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
+                        val userKey = ds.child("userKey").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null) {
-                            userDataList.add(User( email, name, role))
+                        if (name != null && email != null && role != null && userKey != null) {
+                            userDataList.add(User( email, name, role, userKey))
                         }
                     }
                 }
@@ -64,10 +64,38 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
+    fun fetchRestaurantData(callback: (ArrayList<User>) -> Unit) {
+        val myRef = Function().getDBRef("user")
+        val userDataList: ArrayList<User> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    if (ds.child("role").getValue(String::class.java) == "merchant"){
+                        val name = ds.child("name").getValue(String::class.java)
+                        val email = ds.child("email").getValue(String::class.java)
+                        val role = ds.child("role").getValue(String::class.java)
+                        val userKey = ds.child("userKey").getValue(String::class.java)
+
+                        if (name != null && email != null && role != null && userKey != null) {
+                            userDataList.add(User( email, name, role, userKey))
+                        }
+                    }
+                }
+                callback(userDataList)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
 
     fun fetchMenuData(callback: (ArrayList<Menu>) -> Unit) {
         val myRef = Function().getDBRef("menu")
-        val userKey: String? = Function().currentUser()?.uid
+        val userKey: String? = Function().getCurrentUserKey()
         val menuList: ArrayList<Menu> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
@@ -97,8 +125,6 @@ class Function {
 
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
-
-
 
 //    function to get current user information
 

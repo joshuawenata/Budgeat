@@ -8,14 +8,14 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 
-class AdapterAddStock<T>(
+class AdapterWithButton<T>(
     private val context: Context,
     private val items: List<T>,
     private val itemLayoutResId: Int,
     private val bindView: (View, T) -> Unit,
     private val onItemClick: (T) -> Unit,
     private val onItemButtonClickListener: (T) -> Unit
-) : RecyclerView.Adapter<AdapterAddStock<T>.ViewHolder>() {
+) : RecyclerView.Adapter<AdapterWithButton<T>.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: T) {

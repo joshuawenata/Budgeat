@@ -47,9 +47,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/menu_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="520dp"
+            android:layout_height="510dp"
             android:layout_marginTop="20dp"
-            tools:listitem="@layout/card_menu"/>
+            tools:listitem="@layout/card_menu_with_button"/>
 
     </LinearLayout>
 
