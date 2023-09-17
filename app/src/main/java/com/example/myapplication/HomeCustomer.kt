@@ -28,6 +28,7 @@ class HomeCustomer : ComponentActivity() {
                 { item ->
                     val intent = Intent(this, MenuList::class.java)
                     intent.putExtra("userKey", item.userKey)
+                    intent.putExtra("userName", item.name)
                     startActivity(intent)
                 }
             )
