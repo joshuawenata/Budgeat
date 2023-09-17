@@ -54,7 +54,7 @@ class AddMenu : ComponentActivity() {
         if(flag){
             val myRef = Function().getDBRef("user")
             val menuKey: String = myRef.push().key.toString()
-            val userKey: String? = Function().currentUser()?.uid
+            val userKey: String? = Function().getCurrentUserKey()
 
             Function().writeDB("menu", "$userKey/$menuKey/menuName",menuName)
             Function().writeDB("menu", "$userKey/$menuKey/menuDescription",menuDescription)

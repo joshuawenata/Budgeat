@@ -36,7 +36,7 @@ class Function {
 
     fun fetchUserData(callback: (ArrayList<User>) -> Unit) {
         val myRef = Function().getDBRef("user")
-        val userKey: String? = Function().currentUser()?.uid
+        val userKey: String? = Function().getCurrentUserKey()
         val userDataList = ArrayList<User>()
 
         val valueEventListener = object : ValueEventListener {
@@ -106,6 +106,12 @@ class Function {
         val auth: FirebaseAuth = Firebase.auth
         return auth.currentUser
     }
+
+    fun getCurrentUserKey(): String? {
+        val user: FirebaseUser? = Function().currentUser()
+        return user?.uid
+    }
+
 
 
 }

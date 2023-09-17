@@ -78,12 +78,6 @@
             android:background="@null"
             android:src="@drawable/order_grey" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="25dp"
-            android:background="@null"
-            android:src="@drawable/stock_grey" />
 
         <ImageButton
             android:layout_width="wrap_content"
