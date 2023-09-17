@@ -27,34 +27,19 @@ class Login : ComponentActivity() {
         val user: FirebaseUser? = auth.currentUser
 
         if(user!=null){
-            val myRef = Function().getDBRef("user")
-            val valueEventListener = object : ValueEventListener {
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (ds in dataSnapshot.children) {
-                        val email = ds.child("email").getValue(String::class.java)
-                        val role = ds.child("role").getValue(String::class.java)
-
-                        if(user.email==email){
-                            if (role == "customer") {
-                                val intent = Intent(applicationContext, HomeCustomer::class.java)
-                                startActivity(intent)
-                                finishAffinity()
-                            } else {
-                                val intent = Intent(applicationContext, HomeMerchant::class.java)
-                                startActivity(intent)
-                                finishAffinity()
-                            }
-                        }
+            Function().fetchUserData { userDataList ->
+                if(user.email==userDataList[0].email){
+                    if (userDataList[0].role == "customer") {
+                        val intent = Intent(applicationContext, HomeCustomer::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    } else {
+                        val intent = Intent(applicationContext, HomeMerchant::class.java)
+                        startActivity(intent)
+                        finishAffinity()
                     }
                 }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d(TAG, databaseError.message)
-                }
-
             }
-            myRef.addListenerForSingleValueEvent(valueEventListener)
         }
 
     }
@@ -94,34 +79,19 @@ class Login : ComponentActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Login successful
-                    val myRef = Function().getDBRef("user")
-                    val valueEventListener = object : ValueEventListener {
-
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            for (ds in dataSnapshot.children) {
-                                val emailDB = ds.child("email").getValue(String::class.java)
-                                val role = ds.child("role").getValue(String::class.java)
-
-                                if(email==emailDB){
-                                    if (role == "customer") {
-                                        val intent = Intent(applicationContext, HomeCustomer::class.java)
-                                        startActivity(intent)
-                                        finishAffinity()
-                                    } else {
-                                        val intent = Intent(applicationContext, HomeMerchant::class.java)
-                                        startActivity(intent)
-                                        finishAffinity()
-                                    }
-                                }
+                    Function().fetchUserData { userDataList ->
+                        if(email==userDataList[0].email){
+                            if (userDataList[0].role == "customer") {
+                                val intent = Intent(applicationContext, HomeCustomer::class.java)
+                                startActivity(intent)
+                                finishAffinity()
+                            } else {
+                                val intent = Intent(applicationContext, HomeMerchant::class.java)
+                                startActivity(intent)
+                                finishAffinity()
                             }
                         }
-
-                        override fun onCancelled(databaseError: DatabaseError) {
-                            Log.d(TAG, databaseError.message)
-                        }
-
                     }
-                    myRef.addListenerForSingleValueEvent(valueEventListener)
                 } else {
                     // Login failed
                     val errorMessage = task.exception?.message

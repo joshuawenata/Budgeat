@@ -4,18 +4,27 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 
 class Adapter<T>(
     private val context: Context,
-    private val items: ArrayList<T>,
+    private val items: List<T>,
     private val itemLayoutResId: Int,
-    private val bindView: (View, T) -> Unit
+    private val bindView: (View, T) -> Unit,
+    private val onItemClick: (T) -> Unit,
 ) : RecyclerView.Adapter<Adapter<T>.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: T) {
             bindView(itemView, item)
+
+            // Set an onClickListener for the item view
+            itemView.setOnClickListener {
+                onItemClick(item)
+            }
+
         }
     }
 

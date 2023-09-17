@@ -57,6 +57,9 @@ class Register : ComponentActivity() {
                     // User registration successful, now write user data to the database
                     Function().writeDB("user", "$userKey/name", name)
                     Function().writeDB("user", "$userKey/email", email)
+                    if (userKey != null) {
+                        Function().writeDB("user", "$userKey/userKey", userKey)
+                    }
                     if (role != null) {
                         Function().writeDB("user", "$userKey/role", role)
                     }
