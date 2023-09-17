@@ -93,9 +93,8 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchMenuData(callback: (ArrayList<Menu>) -> Unit) {
+    fun fetchMenuData(userKey: String?, callback: (ArrayList<Menu>) -> Unit) {
         val myRef = Function().getDBRef("menu")
-        val userKey: String? = Function().getCurrentUserKey()
         val menuList: ArrayList<Menu> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
@@ -125,6 +124,7 @@ class Function {
 
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
+
 
 //    function to get current user information
 

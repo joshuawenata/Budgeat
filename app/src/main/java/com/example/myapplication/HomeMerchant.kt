@@ -17,7 +17,7 @@ class HomeMerchant : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_merchant)
 
-        Function().fetchMenuData { menuList ->
+        Function().fetchMenuData(Function().getCurrentUserKey()) { menuList ->
             // Now you can use the menuList or pass it to your RecyclerView setup code
             val recyclerView = findViewById<RecyclerView>(R.id.menu_recyclerview)
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
