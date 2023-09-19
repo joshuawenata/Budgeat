@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterWithButtonAndPicker
 
 class MenuList : ComponentActivity() {
+    val buyList: ArrayList<Int> = ArrayList()
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,21 +59,25 @@ class MenuList : ComponentActivity() {
                     minus.visibility = View.VISIBLE
                     buyCount.visibility = View.VISIBLE
                 },
-                { itemView, item ->
+                { itemView, item, position ->
                     // Handle minus button click here
+                    buyList[position] = 0
                     val textCount = itemView.findViewById<TextView>(R.id.buy_count)
                     if(Integer.parseInt(textCount.text.toString())>0){
                         val newValue: Int = Integer.parseInt(textCount.text.toString())-1
                         textCount.text = newValue.toString()
+                        buyList[position] = newValue
                     }
                 },
-                { itemView, item ->
+                { itemView, item, position ->
                     // Handle plus button click here
+                    buyList[position] = 0
                     val textCount = itemView.findViewById<TextView>(R.id.buy_count)
                     val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock_picker)
                     if(Integer.parseInt(textCount.text.toString())<Integer.parseInt(menuStockTextView.text.toString())){
                         val newValue: Int = Integer.parseInt(textCount.text.toString())+1
                         textCount.text = newValue.toString()
+                        buyList[position] = newValue
                     }
                 }
             )
@@ -84,6 +89,7 @@ class MenuList : ComponentActivity() {
 
     fun toCheckout(view: View){
         val intent = Intent(this, Checkout::class.java)
+        intent.putExtra("buyList",buyList)
         startActivity(intent)
     }
 

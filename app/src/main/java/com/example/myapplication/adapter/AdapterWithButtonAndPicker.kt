@@ -15,8 +15,8 @@ class AdapterWithButtonAndPicker<T>(
     private val bindView: (View, T) -> Unit,
     private val onItemClick: (T) -> Unit,
     private val onItemButtonClickListener: (View, T) -> Unit,
-    private val onItemButtonClickListenerMinus: (View, T) -> Unit,
-    private val onItemButtonClickListenerPlus: (View, T) -> Unit,
+    private val onItemButtonClickListenerMinus: (View, T, Int) -> Unit,
+    private val onItemButtonClickListenerPlus: (View, T, Int) -> Unit,
 ) : RecyclerView.Adapter<AdapterWithButtonAndPicker<T>.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,12 +36,18 @@ class AdapterWithButtonAndPicker<T>(
 
             val minusbutton = itemView.findViewById<ImageButton>(R.id.minus) // Replace with your button ID
             minusbutton.setOnClickListener {
-                onItemButtonClickListenerMinus(itemView, item)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemButtonClickListenerMinus(itemView, item, position)
+                }
             }
 
             val plusbutton = itemView.findViewById<ImageButton>(R.id.plus) // Replace with your button ID
             plusbutton.setOnClickListener {
-                onItemButtonClickListenerPlus(itemView, item)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemButtonClickListenerPlus(itemView, item, position)
+                }
             }
         }
     }
