@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterWithButtonAndPicker
 
 class MenuList : ComponentActivity() {
-    val buyList: ArrayList<Int> = ArrayList()
+    private val buyList: ArrayList<Int> = ArrayList()
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class MenuList : ComponentActivity() {
                 { item ->
                     // Handle item click here
                 },
-                { itemView, item ->
+                { itemView, item, position ->
                     // Handle button click here
                     val addButton = itemView.findViewById<ImageButton>(R.id.card_add_order)
                     val plus = itemView.findViewById<ImageButton>(R.id.plus)
@@ -59,6 +59,9 @@ class MenuList : ComponentActivity() {
                     plus.visibility = View.VISIBLE
                     minus.visibility = View.VISIBLE
                     buyCount.visibility = View.VISIBLE
+
+                    buyList[position] = 1
+                    buyCount.text = 1.toString()
                 },
                 { itemView, item, position ->
                     // Handle minus button click here
