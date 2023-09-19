@@ -57,7 +57,7 @@
                     android:src="@drawable/confirm"
                     android:background="@null"
                     android:contentDescription="Login Button"
-                    android:onClick="LoginToApp"/>
+                    android:onClick="toHome"/>
 
             </LinearLayout>
 

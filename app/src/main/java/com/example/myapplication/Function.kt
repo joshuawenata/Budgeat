@@ -23,7 +23,7 @@ class Function {
     }
 
     //    function for writing to database
-    fun writeDB(ref:String, path: String, value: Integer){
+    fun writeDB(ref:String, path: String, value: Int){
         val myRef = getDBRef(ref)
         myRef.child(path).setValue(value)
     }
@@ -137,7 +137,6 @@ class Function {
         val user: FirebaseUser? = Function().currentUser()
         return user?.uid
     }
-
 
 
 }
