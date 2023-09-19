@@ -5,47 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dummy_restaurant_big"
+                    android:background="@null"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/dummy_restaurant_big"
-                android:background="@null"/>
+                android:layout_marginHorizontal="20dp">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/restaurant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Ruby Hotel"
+                    android:textSize="40sp"
+                    android:textStyle="bold"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp">
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/restaurant_name"
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/menulist_recyclerview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Ruby Hotel"
-                android:textSize="40sp"
-                android:textStyle="bold"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="10dp"
+                tools:listitem="@layout/card_menu_with_button_and_picker"/>
+            
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_marginVertical="30dp"
+                android:src="@drawable/confirm"
+                android:onClick="toCheckout"/>
 
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/menulist_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="10dp"
-            tools:listitem="@layout/card_menu_with_button"/>
-
-    </LinearLayout>
+        
+    </ScrollView>
 
 </RelativeLayout>
