@@ -27,7 +27,7 @@ class AdapterWithButton<T>(
             }
 
             // Set an onClickListener for the button within the item view
-            val button = itemView.findViewById<ImageButton>(R.id.card_add_stock) // Replace with your button ID
+            val button = itemView.findViewById<ImageButton>(R.id.card_add_stock_button) // Replace with your button ID
             button.setOnClickListener {
                 onItemButtonClickListener(item)
             }

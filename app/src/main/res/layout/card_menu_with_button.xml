@@ -24,7 +24,7 @@
             android:layout_gravity="center">
 
             <TextView
-                android:id="@+id/card_menu_name"
+                android:id="@+id/card_menu_name_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -33,7 +33,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/card_menu_description"
+                android:id="@+id/card_menu_description_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -55,7 +55,7 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/card_menu_stock"
+                    android:id="@+id/card_menu_stock_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
@@ -70,7 +70,7 @@
                     android:layout_marginRight="20dp">
 
                     <ImageButton
-                        android:id="@+id/card_add_stock"
+                        android:id="@+id/card_add_stock_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/add"

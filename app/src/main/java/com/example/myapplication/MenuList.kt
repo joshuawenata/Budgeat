@@ -43,6 +43,7 @@ class MenuList : ComponentActivity() {
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
                     menuStockTextView.text = item.menuStock
+                    buyList.add(0)
                 },
                 { item ->
                     // Handle item click here
@@ -88,8 +89,10 @@ class MenuList : ComponentActivity() {
     }
 
     fun toCheckout(view: View){
+        val userKey = intent.getStringExtra("userKey")
         val intent = Intent(this, Checkout::class.java)
         intent.putExtra("buyList",buyList)
+        intent.putExtra("userKey", userKey)
         startActivity(intent)
     }
 
