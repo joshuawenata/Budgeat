@@ -26,9 +26,9 @@ class HomeMerchant : ComponentActivity() {
                 menuList,
                 R.layout.card_menu_with_button,
                 { itemView, item ->
-                    val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name)
-                    val menuDescriptionTextView = itemView.findViewById<TextView>(R.id.card_menu_description)
-                    val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock)
+                    val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name_button)
+                    val menuDescriptionTextView = itemView.findViewById<TextView>(R.id.card_menu_description_button)
+                    val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock_button)
 
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
