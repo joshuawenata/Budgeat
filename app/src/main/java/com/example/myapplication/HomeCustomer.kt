@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,7 @@ class HomeCustomer : ComponentActivity() {
         Function().fetchRestaurantData { userDataList ->
             val recyclerView = findViewById<RecyclerView>(R.id.home_recyclerview)
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            val newAdapterWithButton = Adapter(
+            val newAdapter = Adapter(
                 this,
                 userDataList,
                 R.layout.card_restaurant,
@@ -33,9 +34,15 @@ class HomeCustomer : ComponentActivity() {
                 }
             )
 
-            recyclerView.adapter = newAdapterWithButton
+            recyclerView.adapter = newAdapter
         }
 
     }
+
+    fun toHistory(view: View){
+        val intent = Intent(this, HistoryCustomer::class.java)
+        startActivity(intent)
+    }
+
 }
 

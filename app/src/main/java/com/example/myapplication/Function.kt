@@ -1,8 +1,10 @@
 package com.example.myapplication
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.util.Log
 import com.example.myapplication.`object`.Menu
+import com.example.myapplication.`object`.Order
 import com.example.myapplication.`object`.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -12,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 class Function {
@@ -37,6 +40,35 @@ class Function {
     fun fetchUserData(callback: (ArrayList<User>) -> Unit) {
         val myRef = Function().getDBRef("user")
         val userKey: String? = Function().getCurrentUserKey()
+        val userDataList: ArrayList<User> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    if (userKey==ds.child("userKey").getValue(String::class.java)){
+                        val name = ds.child("name").getValue(String::class.java)
+                        val email = ds.child("email").getValue(String::class.java)
+                        val role = ds.child("role").getValue(String::class.java)
+                        val userKey = ds.child("userKey").getValue(String::class.java)
+
+                        if (name != null && email != null && role != null && userKey != null) {
+                            userDataList.add(User( email, name, role, userKey))
+                        }
+                    }
+                }
+                callback(userDataList)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
+
+    fun fetchSearchUserData(userKey: String, callback: (ArrayList<User>) -> Unit) {
+        val myRef = Function().getDBRef("user")
         val userDataList: ArrayList<User> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
@@ -125,6 +157,52 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
+    fun fetchRestaurantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>) -> Unit) {
+        val myRef = Function().getDBRef("order")
+        val restaurantDataList: ArrayList<User> = ArrayList()
+        val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    val restaurantKey: String? = ds.key
+                    for (dss in ds.children) {
+                        val userKey = dss.child("userKey").getValue(String::class.java)
+                        if (userKey == Function().getCurrentUserKey() && restaurantKey != null) {
+                            fetchSearchUserData(restaurantKey) { userDataList ->
+                                for (userData in userDataList) {
+                                    if (restaurantKey == userData.userKey) {
+                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey))
+                                    }
+                                }
+                                // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
+                                fetchMenuData(restaurantKey) { menuList ->
+                                    val temp: ArrayList<Menu> = ArrayList()
+                                    for (menu in menuList) {
+                                        val menuKey = menu.menuKey
+                                        val menuName = menu.menuName
+                                        val menuDescription = menu.menuDescription
+                                        val menuStock = menu.menuStock
+                                        temp.add(Menu(menuName, menuDescription, menuStock, menuKey))
+                                    }
+                                    menuDataList.add(temp)
+                                    if (menuDataList.size == restaurantDataList.size) {
+                                        callback(restaurantDataList, menuDataList)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
 
 //    function to get current user information
 

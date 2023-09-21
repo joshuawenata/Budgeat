@@ -11,47 +11,27 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/navbarLayout"
         android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-
-            android:layout_marginHorizontal="20dp">
-
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/gps"
-                android:background="@null"/>
+            android:gravity="left"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="30dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Jl. Pasar Kaliki No. 25"/>
+                android:text="Order History"
+                android:textAlignment="center"
+                android:textColor="#32B768"
+                android:textSize="25sp"/>
 
         </LinearLayout>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/input_shape_grey"
-            android:hint="search your favourite restaurant"
-            android:textColorHint="@color/dark_grey"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:paddingHorizontal="20dp">
-
-        </EditText>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_recyclerview"
+            android:id="@+id/history_customer_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="510dp"
             android:layout_marginTop="20dp"
@@ -76,15 +56,15 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="25dp"
             android:background="@null"
-            android:src="@drawable/home_green" />
+            android:src="@drawable/home_grey"
+            android:onClick="toHome"/>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="25dp"
             android:background="@null"
-            android:src="@drawable/order_grey"
-            android:onClick="toHistory" />
+            android:src="@drawable/order_green" />
 
         <ImageButton
             android:layout_width="wrap_content"

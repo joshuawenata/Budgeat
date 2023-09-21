@@ -53,8 +53,6 @@ class Checkout : ComponentActivity() {
                         itemView.findViewById<TextView>(R.id.card_menu_quantity)
 
                     menuNameTextView.text = item.menuName
-                    Log.d("test", buyList!!.size.toString())
-                    Log.d("test", position.toString())
                     menuQuantityTextView.text = (buyList?.get(position) ?: Int).toString()
                 },
                 { item ->
