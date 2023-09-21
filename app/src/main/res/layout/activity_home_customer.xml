@@ -91,7 +91,8 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="25dp"
             android:background="@null"
-            android:src="@drawable/profile_grey" />
+            android:src="@drawable/profile_grey"
+            android:onClick="toUserSetting"/>
 
     </LinearLayout>
 

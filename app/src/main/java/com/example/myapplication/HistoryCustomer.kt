@@ -49,6 +49,12 @@ class HistoryCustomer : ComponentActivity() {
     fun toHome(view: View){
         val intent = Intent(this, HomeCustomer::class.java)
         startActivity(intent)
+        finishAffinity()
+    }
+
+    fun toUserSetting(view: View){
+        val intent = Intent(this, UserSetting::class.java)
+        startActivity(intent)
         finish()
     }
 }
