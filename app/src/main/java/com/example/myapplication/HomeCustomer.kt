@@ -44,5 +44,10 @@ class HomeCustomer : ComponentActivity() {
         startActivity(intent)
     }
 
+    fun toUserSetting(view: View){
+        val intent = Intent(this, UserSetting::class.java)
+        startActivity(intent)
+    }
+
 }
 
