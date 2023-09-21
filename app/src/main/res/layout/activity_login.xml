@@ -9,15 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="100dp">
+            android:layout_marginBottom="100dp"
+            android:gravity="left">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -25,69 +25,69 @@
                 android:text="Login"
                 android:textAlignment="center"
                 android:textColor="#32B768"
-                android:textSize="25sp"/>
+                android:textSize="25sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="10dp"
+            android:gravity="left"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="Email address"
                 android:textColor="#9CA3AF"
                 android:textSize="15sp"
-                tools:ignore="MissingConstraints"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"/>
+                tools:ignore="MissingConstraints" />
 
             <EditText
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:background="@drawable/input_outline"
                 android:hint="Emailname@email.com"
-                android:textColor="#374151"
-                android:textSize="15sp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:background="@drawable/input_outline"/>
+                android:textColor="#374151"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:layout_marginHorizontal="30dp"
+            android:gravity="left"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="Password"
                 android:textColor="#9CA3AF"
                 android:textSize="15sp"
-                tools:ignore="MissingConstraints"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"/>
+                tools:ignore="MissingConstraints" />
 
             <EditText
                 android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:background="@drawable/input_outline"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColor="#374151"
-                android:textSize="15sp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:background="@drawable/input_outline"/>
+                android:textColor="#374151"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -102,23 +102,23 @@
                 android:layout_height="wrap_content"
                 android:text="Forget password?"
                 android:textAlignment="textEnd"
-                android:textColor="#32B768"/>
+                android:textColor="#32B768" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="50dp"
+            android:gravity="center">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/landingpage_login"
                 android:background="@null"
                 android:contentDescription="Login Button"
-                android:onClick="LoginToApp"/>
+                android:onClick="LoginToApp"
+                android:src="@drawable/landingpage_login" />
 
         </LinearLayout>
 

@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -54,11 +53,10 @@ class Checkout : ComponentActivity() {
 
                     menuNameTextView.text = item.menuName
                     menuQuantityTextView.text = (buyList?.get(position) ?: Int).toString()
-                },
-                { item ->
-                    // Handle item click here
                 }
-            )
+            ) { item ->
+                // Handle item click here
+            }
 
             recyclerView.adapter = newAdapter
         }

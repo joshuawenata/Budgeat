@@ -157,10 +157,11 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchRestaurantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>) -> Unit) {
+    fun fetchRestaurantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<Int>) -> Unit) {
         val myRef = Function().getDBRef("order")
         val restaurantDataList: ArrayList<User> = ArrayList()
         val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
+        val countList: ArrayList<Int> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -184,10 +185,12 @@ class Function {
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
                                         temp.add(Menu(menuName, menuDescription, menuStock, menuKey))
+                                        dss.child(menuKey).getValue(Int::class.java)
+                                            ?.let { countList.add(it) }
                                     }
                                     menuDataList.add(temp)
                                     if (menuDataList.size == restaurantDataList.size) {
-                                        callback(restaurantDataList, menuDataList)
+                                        callback(restaurantDataList, menuDataList, countList)
                                     }
                                 }
                             }

@@ -24,7 +24,7 @@ class HistoryCustomer : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_customer)
 
-        Function().fetchRestaurantHistoryData { restaurantDataList, menuDataList ->
+        Function().fetchRestaurantHistoryData { restaurantDataList, menuDataList, countList ->
             val recyclerView = findViewById<RecyclerView>(R.id.history_customer_recyclerview)
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             val newAdapterHistoryCustomer = AdapterHistoryCustomer(
@@ -38,6 +38,8 @@ class HistoryCustomer : ComponentActivity() {
                 { item, position ->
                     val intent = Intent(this, HistoryCustomerDetail::class.java)
                     intent.putExtra("menu", menuDataList[position])
+                    intent.putExtra("count", countList)
+                    intent.putExtra("restaurantName", item.name)
                     startActivity(intent)
                 }
             )
