@@ -14,4 +14,6 @@
     <string name="title_activity_add_stock">AddStock</string>
     <string name="title_activity_menu_list">MenuList</string>
     <string name="title_activity_checkout">Checkout</string>
+    <string name="title_activity_history_customer">HistoryCustomer</string>
+    <string name="title_activity_history_customer_detail">HistoryCustomerDetail</string>
 </resources>

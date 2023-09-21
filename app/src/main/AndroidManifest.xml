@@ -13,6 +13,16 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".HistoryCustomerDetail"
+            android:exported="false"
+            android:label="@string/title_activity_history_customer_detail"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
+            android:name=".HistoryCustomer"
+            android:exported="false"
+            android:label="@string/title_activity_history_customer"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".Checkout"
             android:exported="false"
             android:label="@string/title_activity_checkout"
