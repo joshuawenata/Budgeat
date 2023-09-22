@@ -207,6 +207,56 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
+    fun fetchOrderHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<Int>) -> Unit) {
+        val myRef = Function().getDBRef("order")
+        val restaurantDataList: ArrayList<User> = ArrayList()
+        val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
+        val countList: ArrayList<Int> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    val restaurantKey: String? = ds.key
+                    for (dss in ds.children) {
+                        val userKey = dss.child("userKey").getValue(String::class.java)
+                        if (userKey == Function().getCurrentUserKey() && restaurantKey != null) {
+                            if (userKey != null) {
+                                fetchSearchUserData(userKey) { userDataList ->
+                                    for (userData in userDataList) {
+                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey))
+                                    }
+                                    // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
+                                    fetchMenuData(restaurantKey) { menuList ->
+                                        val temp: ArrayList<Menu> = ArrayList()
+                                        for (menu in menuList) {
+                                            val menuKey = menu.menuKey
+                                            val menuName = menu.menuName
+                                            val menuDescription = menu.menuDescription
+                                            val menuStock = menu.menuStock
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey))
+                                            dss.child(menuKey).getValue(Int::class.java)
+                                                ?.let { countList.add(it) }
+                                        }
+                                        menuDataList.add(temp)
+                                        if (menuDataList.size == restaurantDataList.size) {
+                                            callback(restaurantDataList, menuDataList, countList)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
+
 //    function to get current user information
 
     fun currentUser(): FirebaseUser? {

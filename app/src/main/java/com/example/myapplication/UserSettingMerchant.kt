@@ -17,10 +17,10 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class UserSetting : ComponentActivity() {
+class UserSettingMerchant : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_usersetting)
+        setContentView(R.layout.activity_usersetting_merchant)
 
         init()
     }
@@ -36,13 +36,13 @@ class UserSetting : ComponentActivity() {
     }
 
     fun toHome(view: View){
-        val intent = Intent(this, HomeCustomer::class.java)
+        val intent = Intent(this, HomeMerchant::class.java)
         startActivity(intent)
         finishAffinity()
     }
 
     fun toHistory(view: View){
-        val intent = Intent(this, HistoryCustomer::class.java)
+        val intent = Intent(this, OrderList::class.java)
         startActivity(intent)
         finish()
     }
