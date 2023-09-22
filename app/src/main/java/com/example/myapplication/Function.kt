@@ -67,6 +67,30 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
+    fun fetchDB(path: String, callback: (String?) -> Unit) {
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+        val dbQuery = databaseReference.child(path)
+
+        dbQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Check if the data exists at the specified path
+                if (dataSnapshot.exists()) {
+                    val value = dataSnapshot.getValue(String::class.java)
+                    callback(value)
+                } else {
+                    // Data does not exist at the specified path
+                    callback(null)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error if the database query is cancelled
+                // You can add your error handling logic here
+                callback(null)
+            }
+        })
+    }
+
     fun fetchSearchUserData(userKey: String, callback: (ArrayList<User>) -> Unit) {
         val myRef = Function().getDBRef("user")
         val userDataList: ArrayList<User> = ArrayList()
