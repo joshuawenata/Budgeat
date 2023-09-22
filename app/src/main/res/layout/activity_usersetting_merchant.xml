@@ -30,14 +30,17 @@
         android:layout_marginEnd="353dp"
         android:drawableLeft="@drawable/baseline_arrow_back_ios_24" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/image_profile_merchant"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="91dp"
         android:layout_marginEnd="285dp"
-        android:drawableLeft="@drawable/personround" />
+        android:src="@drawable/personround"
+        android:background="@drawable/round"
+        android:onClick="changeImageMerchant"/>
 
     <TextView
         android:layout_width="wrap_content"
