@@ -4,7 +4,6 @@ import com.example.myapplication.adapter.AdapterWithButton
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -53,6 +52,15 @@ class HomeMerchant : ComponentActivity() {
 
     fun toAddMenu(view: View){
         val intent = Intent(this, AddMenu::class.java)
+        startActivity(intent)
+    }
+
+    fun toOrder(view: View){
+        val intent = Intent(this, OrderList::class.java)
+        startActivity(intent)
+    }
+    fun toUserSetting(view: View){
+        val intent = Intent(this, UserSettingMerchant::class.java)
         startActivity(intent)
     }
 

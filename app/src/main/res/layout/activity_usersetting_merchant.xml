@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserSetting">
+    tools:context=".UserSettingMerchant">
 
     <TextView
         android:layout_width="wrap_content"
@@ -247,5 +247,6 @@
             android:src="@drawable/profile_green" />
 
     </LinearLayout>
+
 
 </RelativeLayout>
