@@ -39,6 +39,7 @@ class UserSetting : ComponentActivity() {
     private fun init() {
         val name: TextView = findViewById(R.id.user_name)
         val email: TextView = findViewById(R.id.user_email)
+        imageButton = findViewById(R.id.image_profile)
 
         Function().fetchSearchUserData(Function().getCurrentUserKey().toString()) { userDataList ->
             name.text = userDataList[0].name

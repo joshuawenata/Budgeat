@@ -7,5 +7,6 @@ class Menu(
     var menuDescription: String,
     var menuStock: String,
     var menuKey: String,
+    var menuImageUrl: String
 ): Serializable
 
