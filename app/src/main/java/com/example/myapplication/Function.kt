@@ -1,10 +1,10 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.content.ContentValues.TAG
-import android.content.Intent
+import android.content.Context
 import android.util.Log
 import com.example.myapplication.`object`.Menu
-import com.example.myapplication.`object`.Order
 import com.example.myapplication.`object`.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -15,11 +15,20 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.ktx.Firebase
 
 class Function {
 
 //    function to get DB Reference
+
     fun getDBRef(ref: String): DatabaseReference {
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         return database.getReference(ref)
@@ -296,5 +305,24 @@ class Function {
         return user?.uid
     }
 
+//    function to get current address by gps
+
+    fun fetchLocation(context: Context, activity: Activity) {
+        var fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+        val task = fusedLocationProviderClient.lastLocation
+
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat
+                .checkSelfPermission(context,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ){
+            ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),101)
+            return
+        }
+        task.addOnSuccessListener {
+            if(it != null){
+                Toast.makeText(context,"${it.latitude} ${it.longitude}",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }

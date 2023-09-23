@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -67,6 +68,9 @@ class AddMenu : ComponentActivity() {
         }else if (menuStock.isEmpty()) {
             menuStockEditText.error = "Please fill the menu stock field"
             flag = false
+        }else if (!::imageUrl.isInitialized){
+            Toast.makeText(this, "image still loading...", Toast.LENGTH_SHORT).show()
+            flag = false
         }else{
             flag = true
         }
@@ -109,7 +113,6 @@ class AddMenu : ComponentActivity() {
 
     private fun uploadImageToFirebaseStorage(imageUri: Uri) {
         // Create a reference to the image in Firebase Storage
-        Log.d("test","1")
         val storage = Firebase.storage("gs://budgeat-25e02.appspot.com")
         val storageRef = storage.reference
         val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")
@@ -123,7 +126,7 @@ class AddMenu : ComponentActivity() {
                     val imageUrl = uri.toString()
                     // Do something with the image URL, like saving it to a database or displaying it
                     Picasso.get().load(imageUrl).into(imageView)
-                    this.imageUrl = imageUrl
+                    this.imageUrl = uri.toString()
                 }
             }
             .addOnFailureListener { exception ->
