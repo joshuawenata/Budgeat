@@ -163,9 +163,10 @@ class Function {
                             val menuDescription = dss.child("menuDescription").getValue(String::class.java)
                             val menuStock = dss.child("menuStock").getValue(String::class.java)
                             val menuKey = dss.child("menuKey").getValue(String::class.java)
+                            val menuImageUrl = dss.child("menuImageUrl").getValue(String::class.java)
 
-                            if( menuName != null && menuDescription != null && menuStock != null && menuKey != null) {
-                                menuList.add(Menu(menuName, menuDescription, menuStock, menuKey))
+                            if( menuName != null && menuDescription != null && menuStock != null && menuKey != null && menuImageUrl != null) {
+                                menuList.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                             }
                         }
                     }
@@ -208,7 +209,8 @@ class Function {
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
-                                        temp.add(Menu(menuName, menuDescription, menuStock, menuKey))
+                                        val menuImageUrl = menu.menuImageUrl
+                                        temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                                         dss.child(menuKey).getValue(Int::class.java)
                                             ?.let { countList.add(it) }
                                     }
@@ -257,7 +259,8 @@ class Function {
                                             val menuName = menu.menuName
                                             val menuDescription = menu.menuDescription
                                             val menuStock = menu.menuStock
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey))
+                                            val menuImageUrl = menu.menuImageUrl
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                                             dss.child(menuKey).getValue(Int::class.java)
                                                 ?.let { countList.add(it) }
                                         }
