@@ -30,8 +30,8 @@ class UserSettingMerchant : ComponentActivity() {
     }
 
     private fun init() {
-        val name: TextView = findViewById(R.id.user_name)
-        val email: TextView = findViewById(R.id.user_email)
+        val name: TextView = findViewById(R.id.user_name_merchant)
+        val email: TextView = findViewById(R.id.user_email_merchant)
         imageButton = findViewById(R.id.image_profile_merchant)
 
         Function().fetchSearchUserData(Function().getCurrentUserKey().toString()) { userDataList ->
@@ -62,7 +62,7 @@ class UserSettingMerchant : ComponentActivity() {
         finish()
     }
 
-    fun Logout(view: View) {
+    fun LogoutMerchant(view: View) {
         Firebase.auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
