@@ -26,15 +26,13 @@ class UserSettingMerchant : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usersetting_merchant)
 
-        // Initialize imageButton after setContentView
-        imageButton = findViewById(R.id.image_profile_merchant)
-
         init()
     }
 
     private fun init() {
         val name: TextView = findViewById(R.id.user_name)
         val email: TextView = findViewById(R.id.user_email)
+        imageButton = findViewById(R.id.image_profile_merchant)
 
         Function().fetchSearchUserData(Function().getCurrentUserKey().toString()) { userDataList ->
             name.text = userDataList.getOrNull(0)?.name ?: "Unknown"

@@ -5,10 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class HomeMerchant : ComponentActivity() {
     @SuppressLint("NotifyDataSetChanged")
@@ -28,10 +30,12 @@ class HomeMerchant : ComponentActivity() {
                     val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name_button)
                     val menuDescriptionTextView = itemView.findViewById<TextView>(R.id.card_menu_description_button)
                     val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock_button)
+                    val menuImage = itemView.findViewById<ImageView>(R.id.image_menu)
 
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
                     menuStockTextView.text = item.menuStock
+                    Picasso.get().load(item.menuImageUrl).into(menuImage)
                 },
                 { item ->
                     // Handle item click here
