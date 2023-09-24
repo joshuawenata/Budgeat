@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,9 +27,10 @@ class HistoryCustomer : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_customer)
 
-        Function().fetchRestaurantHistoryData { restaurantDataList, menuDataList, countList ->
-            val recyclerView = findViewById<RecyclerView>(R.id.history_customer_recyclerview)
-            recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val recyclerView = findViewById<RecyclerView>(R.id.history_customer_recyclerview)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        Function().fetchRestaurantHistoryData { restaurantDataList, menuDataList ->
             val newAdapterHistoryCustomer = AdapterHistoryCustomer(
                 this,
                 restaurantDataList,
@@ -42,15 +44,20 @@ class HistoryCustomer : ComponentActivity() {
                 { item, position ->
                     val intent = Intent(this, HistoryCustomerDetail::class.java)
                     intent.putExtra("menu", menuDataList[position])
-                    intent.putExtra("count", countList)
-                    intent.putExtra("restaurantName", item.name)
-                    startActivity(intent)
+
+                    // Fetch count order
+                    Function().fetchCountOrder(position) { countList ->
+                        intent.putExtra("count", countList)
+                        intent.putExtra("user|restaurantName", item.name)
+                        startActivity(intent)
+                    }
                 }
             )
 
             recyclerView.adapter = newAdapterHistoryCustomer
         }
     }
+
 
     fun toHome(view: View){
         val intent = Intent(this, HomeCustomer::class.java)

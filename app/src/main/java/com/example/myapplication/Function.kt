@@ -194,11 +194,10 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchRestaurantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<Int>) -> Unit) {
+    fun fetchRestaurantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>) -> Unit) {
         val myRef = Function().getDBRef("order")
         val restaurantDataList: ArrayList<User> = ArrayList()
         val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
-        val countList: ArrayList<Int> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -222,13 +221,13 @@ class Function {
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
-                                        temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
-                                        dss.child(menuKey).getValue(Int::class.java)
-                                            ?.let { countList.add(it) }
+                                        if(dss.child(menuKey).exists()){
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                        }
                                     }
                                     menuDataList.add(temp)
                                     if (menuDataList.size == restaurantDataList.size) {
-                                        callback(restaurantDataList, menuDataList, countList)
+                                        callback(restaurantDataList, menuDataList)
                                     }
                                 }
                             }
@@ -245,11 +244,46 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchOrderHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<Int>) -> Unit) {
+    fun fetchCountOrder(position: Int, callback: (ArrayList<Int>) -> Unit){
         val myRef = Function().getDBRef("order")
-        val restaurantDataList: ArrayList<User> = ArrayList()
-        val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
         val countList: ArrayList<Int> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var childCount = 0
+                for (ds in dataSnapshot.children) {
+                    val restaurantKey: String? = ds.key
+                    for (dss in ds.children) {
+                        val userKey = dss.child("userKey").getValue(String::class.java)
+                        if (userKey == Function().getCurrentUserKey() && restaurantKey != null) {
+                            if (childCount == position) {
+                                var i = 0
+                                for(dsss in dss.children){
+                                    i++
+                                    if(dss.childrenCount.toInt()!=i){
+                                        dsss.getValue(Int::class.java)?.let { countList.add(it) }
+                                    }
+                                }
+                                callback(countList)
+                            }
+                        }
+                        childCount++
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
+
+    fun fetchOrderHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>) -> Unit) {
+        val myRef = Function().getDBRef("order")
+        val userOrderDataList: ArrayList<User> = ArrayList()
+        val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -257,29 +291,27 @@ class Function {
                     val restaurantKey: String? = ds.key
                     for (dss in ds.children) {
                         val userKey = dss.child("userKey").getValue(String::class.java)
-                        if (userKey == Function().getCurrentUserKey() && restaurantKey != null) {
-                            if (userKey != null) {
-                                fetchSearchUserData(userKey) { userDataList ->
-                                    for (userData in userDataList) {
-                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
-                                    }
-                                    // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
-                                    fetchMenuData(restaurantKey) { menuList ->
-                                        val temp: ArrayList<Menu> = ArrayList()
-                                        for (menu in menuList) {
-                                            val menuKey = menu.menuKey
-                                            val menuName = menu.menuName
-                                            val menuDescription = menu.menuDescription
-                                            val menuStock = menu.menuStock
-                                            val menuImageUrl = menu.menuImageUrl
+                        if (userKey != null && restaurantKey != null) {
+                            fetchSearchUserData(userKey) { userDataList ->
+                                for (userData in userDataList) {
+                                    userOrderDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                }
+                                // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
+                                fetchMenuData(restaurantKey) { menuList ->
+                                    val temp: ArrayList<Menu> = ArrayList()
+                                    for (menu in menuList) {
+                                        val menuKey = menu.menuKey
+                                        val menuName = menu.menuName
+                                        val menuDescription = menu.menuDescription
+                                        val menuStock = menu.menuStock
+                                        val menuImageUrl = menu.menuImageUrl
+                                        if(dss.child(menuKey).exists()){
                                             temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
-                                            dss.child(menuKey).getValue(Int::class.java)
-                                                ?.let { countList.add(it) }
                                         }
-                                        menuDataList.add(temp)
-                                        if (menuDataList.size == restaurantDataList.size) {
-                                            callback(restaurantDataList, menuDataList, countList)
-                                        }
+                                    }
+                                    menuDataList.add(temp)
+                                    if (menuDataList.size == userOrderDataList.size) {
+                                        callback(userOrderDataList, menuDataList)
                                     }
                                 }
                             }

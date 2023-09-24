@@ -1,6 +1,7 @@
 package com.example. myapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -20,8 +21,7 @@ class HistoryCustomerDetail : ComponentActivity() {
     }
 
     private fun init() {
-
-        val restaurantName: String? = intent.getStringExtra("restaurantName")
+        val restaurantName: String? = intent.getStringExtra("user|restaurantName")
         val temp: ArrayList<Menu>? = intent.getSerializableExtra("menu") as? ArrayList<Menu>
         val countList: ArrayList<Int>? = intent.getIntegerArrayListExtra("count")
 

@@ -4,34 +4,43 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterHistoryCustomer
+import com.squareup.picasso.Picasso
 
 class OrderList : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_list)
 
-        Function().fetchOrderHistoryData { restaurantDataList, menuDataList, countList ->
-            val recyclerView = findViewById<RecyclerView>(R.id.order_list_recyclerview)
-            recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val recyclerView = findViewById<RecyclerView>(R.id.order_list_recyclerview)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        Function().fetchOrderHistoryData { restaurantDataList, menuDataList ->
             val newAdapterHistoryCustomer = AdapterHistoryCustomer(
                 this,
                 restaurantDataList,
                 R.layout.card_user,
                 { itemView, item ->
-                    val restaurantNameTextView = itemView.findViewById<TextView>(R.id.card_user_name)
-                    restaurantNameTextView.text = item.name
+                    val userNameTextView = itemView.findViewById<TextView>(R.id.card_user_name)
+                    val userImage = itemView.findViewById<ImageView>(R.id.image_user)
+                    userNameTextView.text = item.name
+                    Picasso.get().load(item.imageDownloadUrl).into(userImage)
                 },
                 { item, position ->
                     val intent = Intent(this, HistoryCustomerDetail::class.java)
                     intent.putExtra("menu", menuDataList[position])
-                    intent.putExtra("count", countList)
-                    intent.putExtra("restaurantName", item.name)
-                    startActivity(intent)
+
+                    // Fetch count order
+                    Function().fetchCountOrder(position) { countList ->
+                        intent.putExtra("count", countList)
+                        intent.putExtra("user|restaurantName", item.name)
+                        startActivity(intent)
+                    }
                 }
             )
 
