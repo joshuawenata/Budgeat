@@ -3,13 +3,16 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterWithButtonAndPicker
+import com.squareup.picasso.Picasso
 
 class MenuList : ComponentActivity() {
     private val buyList: ArrayList<Int> = ArrayList()
@@ -20,10 +23,12 @@ class MenuList : ComponentActivity() {
 
         val intent = intent
 
+        val restaurantImage: ImageView = findViewById(R.id.restaurant_dashboard_image)
         val restaurantName: TextView? = findViewById(R.id.restaurant_name)
         if (restaurantName != null) {
             restaurantName.text = intent.getStringExtra("userName")
         }
+        Picasso.get().load(intent.getStringExtra("imageDownloadUrl")).into(restaurantImage)
         val userKey = intent.getStringExtra("userKey")
 
         Function().fetchMenuData(userKey) { menuList ->
@@ -39,10 +44,13 @@ class MenuList : ComponentActivity() {
                     val menuDescriptionTextView =
                         itemView.findViewById<TextView>(R.id.card_menu_description_picker)
                     val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock_picker)
+                    val menuImageView = itemView.findViewById<ImageView>(R.id.card_menu_image_picker)
 
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
                     menuStockTextView.text = item.menuStock
+                    Log.d("test",item.menuImageUrl)
+                    Picasso.get().load(item.menuImageUrl).into(menuImageView)
                     buyList.add(0)
                 },
                 { item ->

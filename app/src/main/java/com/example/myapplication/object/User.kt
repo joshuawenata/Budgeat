@@ -4,4 +4,5 @@ class User(
     var name: String,
     var role: String,
     var userKey: String,
+    var imageDownloadUrl: String
 )

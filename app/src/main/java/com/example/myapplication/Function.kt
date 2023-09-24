@@ -59,9 +59,10 @@ class Function {
                         val email = ds.child("email").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
+                        val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null && userKey != null) {
-                            userDataList.add(User( email, name, role, userKey))
+                        if (name != null && email != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -112,9 +113,10 @@ class Function {
                         val email = ds.child("email").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
+                        val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null && userKey != null) {
-                            userDataList.add(User( email, name, role, userKey))
+                        if (name != null && email != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -141,9 +143,10 @@ class Function {
                         val email = ds.child("email").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
+                        val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null && userKey != null) {
-                            userDataList.add(User( email, name, role, userKey))
+                        if (name != null && email != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -207,7 +210,7 @@ class Function {
                             fetchSearchUserData(restaurantKey) { userDataList ->
                                 for (userData in userDataList) {
                                     if (restaurantKey == userData.userKey) {
-                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey))
+                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                     }
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
@@ -258,7 +261,7 @@ class Function {
                             if (userKey != null) {
                                 fetchSearchUserData(userKey) { userDataList ->
                                     for (userData in userDataList) {
-                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey))
+                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                     }
                                     // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                     fetchMenuData(restaurantKey) { menuList ->

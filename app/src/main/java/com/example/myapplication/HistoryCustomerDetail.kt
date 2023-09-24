@@ -2,9 +2,12 @@ package com.example. myapplication
 
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterCheckout
 import com.example.myapplication.`object`.Menu
 
@@ -48,10 +51,12 @@ class HistoryCustomerDetail : ComponentActivity() {
                 { itemView, item, position ->
                     val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name)
                     val menuQuantityTextView = itemView.findViewById<TextView>(R.id.card_menu_quantity)
+                    val menuImageView = itemView.findViewById<ImageView>(R.id.card_menu_image)
 
                     menuNameTextView.text = item.menuName
                     val quantity = countList[position]
                     menuQuantityTextView.text = quantity.toString()
+                    Picasso.get().load(item.menuImageUrl).into(menuImageView)
                 }
             ) { item ->
                 // Handle item click here
