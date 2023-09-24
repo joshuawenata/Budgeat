@@ -13,8 +13,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/card_menu_image_picker"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
             android:src="@drawable/dummy_food"/>
 
         <LinearLayout

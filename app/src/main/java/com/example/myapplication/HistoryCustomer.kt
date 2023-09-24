@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.Adapter
 import com.example.myapplication.adapter.AdapterHistoryCustomer
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.squareup.picasso.Picasso
 
 class HistoryCustomer : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +35,9 @@ class HistoryCustomer : ComponentActivity() {
                 R.layout.card_restaurant,
                 { itemView, item ->
                     val restaurantNameTextView = itemView.findViewById<TextView>(R.id.card_restaurant_name)
+                    val restaurantImage = itemView.findViewById<ImageView>(R.id.image_restaurant)
                     restaurantNameTextView.text = item.name
+                    Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
                 },
                 { item, position ->
                     val intent = Intent(this, HistoryCustomerDetail::class.java)

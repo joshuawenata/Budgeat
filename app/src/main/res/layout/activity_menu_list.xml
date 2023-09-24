@@ -19,6 +19,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/restaurant_dashboard_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/dummy_restaurant_big"
