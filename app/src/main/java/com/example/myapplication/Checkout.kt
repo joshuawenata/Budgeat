@@ -3,12 +3,14 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterCheckout
 import com.example.myapplication.`object`.Menu
+import com.squareup.picasso.Picasso
 import java.util.ArrayList
 
 class Checkout : ComponentActivity() {
@@ -50,9 +52,11 @@ class Checkout : ComponentActivity() {
                         itemView.findViewById<TextView>(R.id.card_menu_name)
                     val menuQuantityTextView =
                         itemView.findViewById<TextView>(R.id.card_menu_quantity)
+                    val menuImageView = itemView.findViewById<ImageView>(R.id.card_menu_image)
 
                     menuNameTextView.text = item.menuName
                     menuQuantityTextView.text = (buyList?.get(position) ?: Int).toString()
+                    Picasso.get().load(item.menuImageUrl).into(menuImageView)
                 }
             ) { item ->
                 // Handle item click here
@@ -72,14 +76,14 @@ class Checkout : ComponentActivity() {
         }
 
         val merchantKey: String? = intent.getStringExtra("userKey")
+        val orderRef = Function().getDBRef("order")
+        val orderKey = orderRef.push().key
         for (i in menuList?.indices ?: emptyList<Int>().indices) {
-            val orderRef = Function().getDBRef("order")
-            val orderKey = orderRef.push().key
             val menuKey = menuList!![i].menuKey
             val buyItem = buyList?.getOrNull(i) ?: 0 // Default value if buyList is null or doesn't have an element at index i
             Function().writeDB("order", "$merchantKey/$orderKey/$menuKey", buyItem)
-            Function().writeDB("order", "$merchantKey/$orderKey/userKey", Function().getCurrentUserKey().toString())
         }
+        Function().writeDB("order", "$merchantKey/$orderKey/userKey", Function().getCurrentUserKey().toString())
         val intent = Intent(this, HomeCustomer::class.java)
         startActivity(intent)
         finishAffinity()
