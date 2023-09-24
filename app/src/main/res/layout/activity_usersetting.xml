@@ -43,12 +43,11 @@
             android:gravity="center_vertical"
             android:layout_marginHorizontal="60dp">
 
-            <ImageButton
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_profile"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/personround"
-                android:background="@drawable/round"
                 android:onClick="changeImage"/>
 
             <LinearLayout
@@ -75,7 +74,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:layout_width="119dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="+62 XXX XXXX XX"
                     android:textColor="#1F2937"

@@ -15,12 +15,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.UUID
 
 class UserSettingMerchant : ComponentActivity() {
 
     private val PICK_IMAGE_REQUEST = 1
-    private lateinit var imageButton: ImageButton
+    private lateinit var imageButton: CircleImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
