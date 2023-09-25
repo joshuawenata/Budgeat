@@ -126,6 +126,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Menu Price"
+                android:textColor="#9CA3AF"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/add_menu_price"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Enter a price"
+                android:textColor="#374151"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:background="@drawable/input_outline"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="20dp"
             android:orientation="horizontal">
@@ -151,8 +183,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="50dp">
+            android:gravity="center">
 
             <ImageButton
                 android:layout_width="wrap_content"
