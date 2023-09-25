@@ -261,6 +261,42 @@ class Function {
                                 for(dsss in dss.children){
                                     i++
                                     if(dss.childrenCount.toInt()!=i){
+                                        Log.d("count", dsss.getValue(Int::class.java).toString())
+                                        dsss.getValue(Int::class.java)?.let { countList.add(it) }
+                                    }
+                                }
+                                callback(countList)
+                            }
+                        }
+                        childCount++
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
+
+    fun fetchCountMerchantOrder(position: Int, callback: (ArrayList<Int>) -> Unit){
+        val myRef = Function().getDBRef("order")
+        val countList: ArrayList<Int> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var childCount = 0
+                for (ds in dataSnapshot.children) {
+                    val restaurantKey: String? = ds.key
+                    for (dss in ds.children) {
+                        if (restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
+                            if (childCount == position) {
+                                var i = 0
+                                for(dsss in dss.children){
+                                    i++
+                                    if(dss.childrenCount.toInt()!=i){
                                         dsss.getValue(Int::class.java)?.let { countList.add(it) }
                                     }
                                 }

@@ -36,7 +36,7 @@ class OrderList : ComponentActivity() {
                     intent.putExtra("menu", menuDataList[position])
 
                     // Fetch count order
-                    Function().fetchCountOrder(position) { countList ->
+                    Function().fetchCountMerchantOrder(position) { countList ->
                         intent.putExtra("count", countList)
                         intent.putExtra("user|restaurantName", item.name)
                         startActivity(intent)
