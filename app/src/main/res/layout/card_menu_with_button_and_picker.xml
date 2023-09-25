@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/card_menu_image_picker"
-            android:layout_width="125dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
             android:src="@drawable/dummy_food"/>
 
         <LinearLayout
@@ -40,6 +40,15 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
                 android:text="@string/menu_description"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/card_menu_price_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="5dp"
+                android:text="Menu Price"
                 android:textColor="@color/black"/>
 
             <LinearLayout

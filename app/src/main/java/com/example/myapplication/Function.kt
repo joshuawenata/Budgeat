@@ -174,11 +174,12 @@ class Function {
                             val menuName = dss.child("menuName").getValue(String::class.java)
                             val menuDescription = dss.child("menuDescription").getValue(String::class.java)
                             val menuStock = dss.child("menuStock").getValue(String::class.java)
+                            val menuPrice = dss.child("menuPrice").getValue(String::class.java)
                             val menuKey = dss.child("menuKey").getValue(String::class.java)
                             val menuImageUrl = dss.child("menuImageUrl").getValue(String::class.java)
 
-                            if( menuName != null && menuDescription != null && menuStock != null && menuKey != null && menuImageUrl != null) {
-                                menuList.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                            if( menuName != null && menuDescription != null && menuStock != null && menuPrice != null && menuKey != null && menuImageUrl != null) {
+                                menuList.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
                             }
                         }
                     }
@@ -220,9 +221,10 @@ class Function {
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
+                                        val menuPrice = menu.menuPrice
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
@@ -340,9 +342,10 @@ class Function {
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
+                                        val menuPrice = menu.menuPrice
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)

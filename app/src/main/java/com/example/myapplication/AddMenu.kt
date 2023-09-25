@@ -52,10 +52,12 @@ class AddMenu : ComponentActivity() {
         val menuNameEditText: EditText = findViewById(R.id.add_menu_name)
         val menuDescriptionEditText: EditText = findViewById(R.id.add_menu_description)
         val menuStockEditText: EditText = findViewById(R.id.add_menu_stock)
+        val menuPriceEditText: EditText = findViewById(R.id.add_menu_price)
 
         val menuName = menuNameEditText.text.toString()
         val menuDescription = menuDescriptionEditText.text.toString()
         val menuStock = menuStockEditText.text.toString()
+        val menuPrice = menuPriceEditText.text.toString()
 
         var flag = true
 
@@ -67,6 +69,9 @@ class AddMenu : ComponentActivity() {
             flag = false
         }else if (menuStock.isEmpty()) {
             menuStockEditText.error = "Please fill the menu stock field"
+            flag = false
+        }else if (menuPrice.isEmpty()) {
+            menuStockEditText.error = "Please fill the menu price field"
             flag = false
         }else if (!::imageUrl.isInitialized){
             Toast.makeText(this, "image still loading...", Toast.LENGTH_SHORT).show()
@@ -83,6 +88,7 @@ class AddMenu : ComponentActivity() {
             Function().writeDB("menu", "$userKey/$menuKey/menuName",menuName)
             Function().writeDB("menu", "$userKey/$menuKey/menuDescription",menuDescription)
             Function().writeDB("menu", "$userKey/$menuKey/menuStock",menuStock)
+            Function().writeDB("menu", "$userKey/$menuKey/menuPrice",menuPrice)
             Function().writeDB("menu", "$userKey/$menuKey/menuKey",menuKey)
             Function().writeDB("menu", "$userKey/$menuKey/menuImageUrl",imageUrl)
 
