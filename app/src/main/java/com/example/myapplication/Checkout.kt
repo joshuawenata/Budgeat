@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -84,6 +85,19 @@ class Checkout : ComponentActivity() {
             Function().writeDB("order", "$merchantKey/$orderKey/$menuKey", buyItem)
         }
         Function().writeDB("order", "$merchantKey/$orderKey/userKey", Function().getCurrentUserKey().toString())
+        Function().fetchMenuData(merchantKey){menuDBList ->
+            var counting = 0
+            for (i in menuList!!) {
+                val menuKey = i.menuKey
+                val stockDifference = Integer.parseInt(menuDBList!![counting].menuStock) - buyList!![counting]
+                val stockDifferenceString = stockDifference.toString()
+
+                // Update the menu stock using the writeDB function
+                Function().writeDB("menu", "$merchantKey/$menuKey/menuStock", stockDifferenceString)
+
+                counting++
+            }
+        }
         val intent = Intent(this, HomeCustomer::class.java)
         startActivity(intent)
         finishAffinity()
