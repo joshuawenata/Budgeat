@@ -21,6 +21,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
+import com.example.myapplication.`object`.Order
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.ktx.Firebase
@@ -367,6 +368,59 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
+    fun fetchOrderListData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<String>) -> Unit) {
+        val myRef = Function().getDBRef("order")
+        val userOrderDataList: ArrayList<User> = ArrayList()
+        val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    val restaurantKey: String? = ds.key
+                    val orderList: ArrayList<String> = ArrayList()
+                    for (dss in ds.children) {
+                        dss.key?.let { orderList.add(it) }
+                    }
+                    for (dss in ds.children) {
+                        val userKey = dss.child("userKey").getValue(String::class.java)
+                        if (userKey != null && restaurantKey != null) {
+                            fetchSearchUserData(userKey) { userDataList ->
+                                for (userData in userDataList) {
+                                    userOrderDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                }
+                                // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
+                                fetchMenuData(restaurantKey) { menuList ->
+                                    val temp: ArrayList<Menu> = ArrayList()
+                                    for (menu in menuList) {
+                                        val menuKey = menu.menuKey
+                                        val menuName = menu.menuName
+                                        val menuDescription = menu.menuDescription
+                                        val menuStock = menu.menuStock
+                                        val menuPrice = menu.menuPrice
+                                        val menuImageUrl = menu.menuImageUrl
+                                        if(dss.child(menuKey).exists()){
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
+                                        }
+                                    }
+                                    menuDataList.add(temp)
+                                    if (menuDataList.size == userOrderDataList.size) {
+                                        callback(userOrderDataList, menuDataList, orderList)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
+
 //    function to get current user information
 
     fun currentUser(): FirebaseUser? {
@@ -397,6 +451,14 @@ class Function {
                 Toast.makeText(context,"${it.latitude} ${it.longitude}",Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+//    function to delete
+    fun deleteOrder(orderKey: String){
+        val databaseReference = getDBRef("order")
+        val nodeReference = databaseReference.child(getCurrentUserKey().toString()).child(orderKey)
+
+        nodeReference.removeValue()
     }
 
 }
