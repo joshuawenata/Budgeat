@@ -20,7 +20,7 @@ class OrderList : ComponentActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.order_list_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        Function().fetchOrderHistoryData { restaurantDataList, menuDataList ->
+        Function().fetchOrderListData { restaurantDataList, menuDataList, orderList ->
             val newAdapterHistoryCustomer = AdapterHistoryCustomer(
                 this,
                 restaurantDataList,
@@ -32,13 +32,14 @@ class OrderList : ComponentActivity() {
                     Picasso.get().load(item.imageDownloadUrl).into(userImage)
                 },
                 { item, position ->
-                    val intent = Intent(this, HistoryCustomerDetail::class.java)
+                    val intent = Intent(this, FinishOrder::class.java)
                     intent.putExtra("menu", menuDataList[position])
 
                     // Fetch count order
                     Function().fetchCountMerchantOrder(position) { countList ->
                         intent.putExtra("count", countList)
                         intent.putExtra("user|restaurantName", item.name)
+                        intent.putExtra("orderKey", orderList[position])
                         startActivity(intent)
                     }
                 }
