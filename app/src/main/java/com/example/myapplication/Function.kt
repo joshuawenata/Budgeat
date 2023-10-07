@@ -58,12 +58,13 @@ class Function {
                     if (userKey==ds.child("userKey").getValue(String::class.java)){
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
+                        val phone = ds.child("phone").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, phone, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -112,12 +113,13 @@ class Function {
                     if (userKey==ds.child("userKey").getValue(String::class.java)){
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
+                        val phone = ds.child("phone").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, phone, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -142,12 +144,13 @@ class Function {
                     if (ds.child("role").getValue(String::class.java) == "merchant"){
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
+                        val phone = ds.child("phone").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, phone, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -175,12 +178,11 @@ class Function {
                             val menuName = dss.child("menuName").getValue(String::class.java)
                             val menuDescription = dss.child("menuDescription").getValue(String::class.java)
                             val menuStock = dss.child("menuStock").getValue(String::class.java)
-                            val menuPrice = dss.child("menuPrice").getValue(String::class.java)
                             val menuKey = dss.child("menuKey").getValue(String::class.java)
                             val menuImageUrl = dss.child("menuImageUrl").getValue(String::class.java)
 
-                            if( menuName != null && menuDescription != null && menuStock != null && menuPrice != null && menuKey != null && menuImageUrl != null) {
-                                menuList.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
+                            if( menuName != null && menuDescription != null && menuStock != null && menuKey != null && menuImageUrl != null) {
+                                menuList.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                             }
                         }
                     }
@@ -211,7 +213,7 @@ class Function {
                             fetchSearchUserData(restaurantKey) { userDataList ->
                                 for (userData in userDataList) {
                                     if (restaurantKey == userData.userKey) {
-                                        restaurantDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                        restaurantDataList.add(User(userData.email, userData.phone, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                     }
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
@@ -222,10 +224,9 @@ class Function {
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
-                                        val menuPrice = menu.menuPrice
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
@@ -333,7 +334,7 @@ class Function {
                         if (userKey != null && restaurantKey != null) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
-                                    userOrderDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    userOrderDataList.add(User(userData.email, userData.phone, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                 fetchMenuData(restaurantKey) { menuList ->
@@ -343,10 +344,9 @@ class Function {
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
-                                        val menuPrice = menu.menuPrice
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
@@ -383,10 +383,10 @@ class Function {
                     }
                     for (dss in ds.children) {
                         val userKey = dss.child("userKey").getValue(String::class.java)
-                        if (userKey != null && restaurantKey != null) {
+                        if (userKey != null && restaurantKey != null && restaurantKey.equals(Function().getCurrentUserKey())) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
-                                    userOrderDataList.add(User(userData.email, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    userOrderDataList.add(User(userData.email, userData.phone, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                 fetchMenuData(restaurantKey) { menuList ->
@@ -396,10 +396,9 @@ class Function {
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
                                         val menuStock = menu.menuStock
-                                        val menuPrice = menu.menuPrice
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuPrice, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)

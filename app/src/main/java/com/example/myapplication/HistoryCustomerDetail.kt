@@ -51,13 +51,10 @@ class HistoryCustomerDetail : ComponentActivity() {
                 { itemView, item, position ->
                     val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name)
                     val menuQuantityTextView = itemView.findViewById<TextView>(R.id.card_menu_quantity)
-                    val menuPriceTextView = itemView.findViewById<TextView>(R.id.card_menu_price)
                     val menuImageView = itemView.findViewById<ImageView>(R.id.card_menu_image)
 
                     menuNameTextView.text = item.menuName
                     val quantity = countList[position]
-                    val totalAmount = BigDecimal(quantity) * item.menuPrice.toBigDecimal()
-                    menuPriceTextView.text = "$totalAmount,00"
                     menuQuantityTextView.text = quantity.toString()
                     Picasso.get().load(item.menuImageUrl).into(menuImageView)
                 }
