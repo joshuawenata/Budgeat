@@ -96,6 +96,38 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Phone Number"
+                android:textColor="#9CA3AF"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/register_phone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="+62 XXX XXX XXX"
+                android:textColor="#374151"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:background="@drawable/input_outline"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginHorizontal="30dp"
             android:orientation="vertical">
 
             <TextView
@@ -122,6 +154,36 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginHorizontal="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Confirm Password"
+                android:textColor="#9CA3AF"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/register_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:textColor="#374151"
+                android:textSize="15sp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:background="@drawable/input_outline"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

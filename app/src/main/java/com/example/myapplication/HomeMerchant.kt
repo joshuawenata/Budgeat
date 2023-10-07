@@ -33,13 +33,11 @@ class HomeMerchant : ComponentActivity() {
                     val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name_button)
                     val menuDescriptionTextView = itemView.findViewById<TextView>(R.id.card_menu_description_button)
                     val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock_button)
-                    val menuPriceTextView = itemView.findViewById<TextView>(R.id.card_menu_price_button)
                     val menuImage = itemView.findViewById<ImageView>(R.id.image_menu)
 
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
                     menuStockTextView.text = item.menuStock
-                    menuPriceTextView.text = "Rp${item.menuPrice},00"
                     Picasso.get().load(item.menuImageUrl).into(menuImage)
                 },
                 { item ->

@@ -33,10 +33,12 @@ class UserSettingMerchant : ComponentActivity() {
     private fun init() {
         val name: TextView = findViewById(R.id.user_name_merchant)
         val email: TextView = findViewById(R.id.user_email_merchant)
+        val phone: TextView = findViewById(R.id.user_phone_merchant)
         imageButton = findViewById(R.id.image_profile_merchant)
 
         Function().fetchSearchUserData(Function().getCurrentUserKey().toString()) { userDataList ->
             name.text = userDataList.getOrNull(0)?.name ?: "Unknown"
+            phone.text = userDataList.getOrNull(0)?.phone ?: "Unknown"
         }
         email.text = Function().currentUser()?.email
 
