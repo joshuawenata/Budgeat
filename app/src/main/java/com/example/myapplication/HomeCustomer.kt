@@ -2,8 +2,11 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -18,9 +21,12 @@ class HomeCustomer : ComponentActivity() {
         setContentView(R.layout.activity_home_customer)
 
         Function().fetchRestaurantData { userDataList ->
+            // Outside the function
+            val searchEditText: EditText = findViewById(R.id.search_bar)
             val recyclerView = findViewById<RecyclerView>(R.id.home_recyclerview)
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            val newAdapter = Adapter(
+
+            val adapter = Adapter(
                 this,
                 userDataList,
                 R.layout.card_restaurant,
@@ -40,7 +46,21 @@ class HomeCustomer : ComponentActivity() {
                 }
             )
 
-            recyclerView.adapter = newAdapter
+            recyclerView.adapter = adapter
+
+            searchEditText.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {}
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val filterText = s.toString().toLowerCase()
+                    val filteredData = userDataList.filter { it.name.toLowerCase().contains(filterText) }
+                    adapter.filterList(filteredData)
+                }
+            })
+
+            adapter.notifyDataSetChanged()
         }
 
     }
