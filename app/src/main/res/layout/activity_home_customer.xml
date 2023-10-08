@@ -14,6 +14,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginHorizontal="50dp"
@@ -24,7 +25,8 @@
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textAlignment="textStart"
-            android:paddingHorizontal="20dp">
+            android:paddingHorizontal="20dp"
+            >
 
         </EditText>
 

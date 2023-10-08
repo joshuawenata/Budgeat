@@ -10,7 +10,7 @@ import com.example.myapplication.R
 
 class Adapter<T>(
     private val context: Context,
-    private val items: List<T>,
+    private var items: List<T>,
     private val itemLayoutResId: Int,
     private val bindView: (View, T) -> Unit,
     private val onItemClick: (T) -> Unit,
@@ -39,5 +39,10 @@ class Adapter<T>(
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    fun filterList(filteredData: List<T>) {
+        items = filteredData
+        notifyDataSetChanged()
     }
 }
