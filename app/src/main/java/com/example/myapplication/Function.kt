@@ -14,17 +14,15 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import android.content.pm.PackageManager
-import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.activity.ComponentActivity
+import android.location.Address
+import android.location.Geocoder
 import androidx.core.app.ActivityCompat
-import com.example.myapplication.`object`.Order
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.ktx.Firebase
+import java.io.IOException
+import java.util.Locale
 
 class Function {
 
@@ -436,7 +434,7 @@ class Function {
 
 //    function to get current address by gps
 
-    fun fetchLocation(context: Context, activity: Activity, callback: (latitude: Double, longitude: Double) -> Double) {
+    fun fetchLocation(context: Context, activity: Activity, callback: (addressLine: String) -> Unit) {
         var fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         val task = fusedLocationProviderClient.lastLocation
 
@@ -448,8 +446,34 @@ class Function {
             return
         }
         task.addOnSuccessListener {
+            Log.d("address","test3")
             if(it != null){
-                callback(it.latitude,it.longitude)
+                val geocoder = Geocoder(context, Locale.getDefault())
+                var addresses: List<Address?>? = null
+                try {
+                    addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                Log.d("address","test2")
+
+                if (!addresses.isNullOrEmpty()) {
+                    val address: Address? = addresses[0]
+                    val addressLine: String? = address?.getAddressLine(0)  // Full address
+                    Log.d("address","test")
+                    if (addressLine != null) {
+                        Log.d("address",addressLine)
+                    }
+
+//                    val city: String? = address?.locality
+//                    val state: String? = address?.adminArea
+//                    val country: String? = address?.countryName
+//                    val postalCode: String? = address?.postalCode
+
+                    if (addressLine != null) {
+                        callback(addressLine)
+                    }
+                }
             }
         }
     }
