@@ -34,6 +34,7 @@ class HomeCustomer : ComponentActivity() {
                     val intent = Intent(this, MenuList::class.java)
                     intent.putExtra("userKey", item.userKey)
                     intent.putExtra("userName", item.name)
+                    intent.putExtra("userAddress", item.address)
                     intent.putExtra("imageDownloadUrl", item.imageDownloadUrl)
                     startActivity(intent)
                 }
@@ -51,6 +52,11 @@ class HomeCustomer : ComponentActivity() {
 
     fun toUserSetting(view: View){
         val intent = Intent(this, UserSetting::class.java)
+        startActivity(intent)
+    }
+
+    fun toAi(view: View){
+        val intent = Intent(this, AiRecommendation::class.java)
         startActivity(intent)
     }
 

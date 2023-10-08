@@ -69,6 +69,14 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="25dp"
             android:background="@null"
+            android:src="@drawable/robot_grey"
+            android:onClick="toAi"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="25dp"
+            android:background="@null"
             android:src="@drawable/profile_grey"
             android:onClick="toUserSetting"/>
 

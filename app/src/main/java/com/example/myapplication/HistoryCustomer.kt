@@ -70,4 +70,10 @@ class HistoryCustomer : ComponentActivity() {
         startActivity(intent)
         finish()
     }
+
+    fun toAi(view: View){
+        val intent = Intent(this, AiRecommendation::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

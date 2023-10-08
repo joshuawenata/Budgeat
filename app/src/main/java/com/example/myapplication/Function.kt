@@ -57,12 +57,13 @@ class Function {
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
                         val phone = ds.child("phone").getValue(String::class.java)
+                        val address = ds.child("address").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && phone != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, phone, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -112,12 +113,13 @@ class Function {
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
                         val phone = ds.child("phone").getValue(String::class.java)
+                        val address = ds.child("address").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && phone != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, phone, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -143,12 +145,13 @@ class Function {
                         val name = ds.child("name").getValue(String::class.java)
                         val email = ds.child("email").getValue(String::class.java)
                         val phone = ds.child("phone").getValue(String::class.java)
+                        val address = ds.child("address").getValue(String::class.java)
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
 
-                        if (name != null && email != null && phone != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, phone, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null) {
+                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl))
                         }
                     }
                 }
@@ -211,7 +214,7 @@ class Function {
                             fetchSearchUserData(restaurantKey) { userDataList ->
                                 for (userData in userDataList) {
                                     if (restaurantKey == userData.userKey) {
-                                        restaurantDataList.add(User(userData.email, userData.phone, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                        restaurantDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                     }
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
@@ -334,7 +337,7 @@ class Function {
                         if (userKey != null && restaurantKey != null) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
-                                    userOrderDataList.add(User(userData.email, userData.phone, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                 fetchMenuData(restaurantKey) { menuList ->
@@ -386,7 +389,7 @@ class Function {
                         if (userKey != null && restaurantKey != null && restaurantKey.equals(Function().getCurrentUserKey())) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
-                                    userOrderDataList.add(User(userData.email, userData.phone, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                 fetchMenuData(restaurantKey) { menuList ->

@@ -34,11 +34,13 @@ class UserSettingMerchant : ComponentActivity() {
         val name: TextView = findViewById(R.id.user_name_merchant)
         val email: TextView = findViewById(R.id.user_email_merchant)
         val phone: TextView = findViewById(R.id.user_phone_merchant)
+        val address: TextView = findViewById(R.id.user_address_merchant)
         imageButton = findViewById(R.id.image_profile_merchant)
 
         Function().fetchSearchUserData(Function().getCurrentUserKey().toString()) { userDataList ->
             name.text = userDataList.getOrNull(0)?.name ?: "Unknown"
             phone.text = userDataList.getOrNull(0)?.phone ?: "Unknown"
+            address.text = userDataList.getOrNull(0)?.address ?: "Unknown"
         }
         email.text = Function().currentUser()?.email
 
@@ -125,6 +127,8 @@ class UserSettingMerchant : ComponentActivity() {
         Function().fetchLocation(applicationContext, this){ addressLine ->
             val address: TextView = findViewById(R.id.user_address_merchant)
             address.text = addressLine
+            val userKey = Function().getCurrentUserKey()
+            Function().writeDB("user", "$userKey/address",addressLine)
         }
     }
 }
