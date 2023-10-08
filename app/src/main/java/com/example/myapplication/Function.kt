@@ -291,9 +291,9 @@ class Function {
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var childCount = 0
                 for (ds in dataSnapshot.children) {
                     val restaurantKey: String? = ds.key
+                    var childCount = 0
                     for (dss in ds.children) {
                         if (restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
                             if (childCount == position) {
@@ -306,6 +306,8 @@ class Function {
                                 }
                                 callback(countList)
                             }
+                        }else{
+                            childCount = 0
                         }
                         childCount++
                     }
@@ -434,7 +436,7 @@ class Function {
 
 //    function to get current address by gps
 
-    fun fetchLocation(context: Context, activity: Activity) {
+    fun fetchLocation(context: Context, activity: Activity, callback: (latitude: Double, longitude: Double) -> Double) {
         var fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         val task = fusedLocationProviderClient.lastLocation
 
@@ -447,7 +449,7 @@ class Function {
         }
         task.addOnSuccessListener {
             if(it != null){
-                Toast.makeText(context,"${it.latitude} ${it.longitude}",Toast.LENGTH_SHORT).show()
+                callback(it.latitude,it.longitude)
             }
         }
     }

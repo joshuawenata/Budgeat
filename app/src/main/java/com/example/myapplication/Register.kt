@@ -55,11 +55,11 @@ class Register : ComponentActivity() {
         }
 
         if(flag){
-            registerAuth(name, phone, email, password, confirmPassword)
+            registerAuth(name, phone, email, password)
         }
     }
 
-    private fun registerAuth(name: String, phone: String, email: String, password:String, confirmPassword: String){
+    private fun registerAuth(name: String, phone: String, email: String, password:String){
         val intent = intent
         val role = intent.getStringExtra("role")
         val auth: FirebaseAuth = Firebase.auth
@@ -71,7 +71,11 @@ class Register : ComponentActivity() {
                     Function().writeDB("user", "$userKey/name", name)
                     Function().writeDB("user", "$userKey/phone", phone)
                     Function().writeDB("user", "$userKey/email", email)
-                    Function().writeDB("user", "$userKey/imageDownloadUrl", "")
+                    if(role=="customer"){
+                        Function().writeDB("user", "$userKey/imageDownloadUrl", "https://firebasestorage.googleapis.com/v0/b/budgeat-25e02.appspot.com/o/images%2Fcustomer_dummy.jpg?alt=media&token=a3c8d195-7b9e-4977-b07f-d5ba4335a3f9&_gl=1*g5mut3*_ga*NzgwODU3NDU4LjE2OTQ1MjcyOTE.*_ga_CW55HF8NVT*MTY5NjczODExNi4zNy4xLjE2OTY3Mzk3NTAuNDAuMC4w")
+                    }else{
+                        Function().writeDB("user", "$userKey/imageDownloadUrl", "https://firebasestorage.googleapis.com/v0/b/budgeat-25e02.appspot.com/o/images%2Fmerchant_dummy.jpg?alt=media&token=5f35150c-4392-4543-a60a-0e3147aa86e8&_gl=1*1dih2yk*_ga*NzgwODU3NDU4LjE2OTQ1MjcyOTE.*_ga_CW55HF8NVT*MTY5NjczODExNi4zNy4xLjE2OTY3MzkzMjUuMTkuMC4w")
+                    }
                     if (userKey != null) {
                         Function().writeDB("user", "$userKey/userKey", userKey)
                     }
