@@ -53,7 +53,6 @@ class MenuList : ComponentActivity() {
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
                     menuStockTextView.text = item.menuStock
-                    Log.d("test",item.menuImageUrl)
                     Picasso.get().load(item.menuImageUrl).into(menuImageView)
                     buyList.add(0)
                 },

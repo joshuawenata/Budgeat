@@ -59,6 +59,24 @@
                 android:layout_marginHorizontal="30dp"
                 tools:listitem="@layout/card_menu"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cancel_order"
+                android:background="@null"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:onClick="cancel"/>
+
+        </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>

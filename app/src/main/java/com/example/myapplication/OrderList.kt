@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterHistoryCustomer
@@ -20,33 +21,51 @@ class OrderList : ComponentActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.order_list_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        Function().fetchOrderListData { restaurantDataList, menuDataList, orderList ->
-            val newAdapterHistoryCustomer = AdapterHistoryCustomer(
-                this,
-                restaurantDataList,
-                R.layout.card_user,
-                { itemView, item ->
-                    val userNameTextView = itemView.findViewById<TextView>(R.id.card_user_name)
-                    val userImage = itemView.findViewById<ImageView>(R.id.image_user)
-                    userNameTextView.text = item.name
-                    Picasso.get().load(item.imageDownloadUrl).into(userImage)
-                },
-                { item, position ->
-                    val intent = Intent(this, FinishOrder::class.java)
-                    intent.putExtra("menu", menuDataList[position])
+        Function().fetchMerchantOngoingData { ongoingCustomerDataList, ongoingMenuDataList, ongoingOrderList ->
+            Function().fetchMerchantHistoryData { historyCustomerDataList, historyMenuDataList, historyOrderList, statusList ->
 
-                    // Fetch count order
-                    Function().fetchCountMerchantOrder(position) { countList ->
-                        intent.putExtra("count", countList)
-                        intent.putExtra("user|restaurantName", item.name)
-                        intent.putExtra("orderKey", orderList[position])
-                        startActivity(intent)
+                // Merge data from ongoing and history sources
+                val mergedCustomerDataList = historyCustomerDataList + ongoingCustomerDataList
+
+                val newAdapterHistoryCustomer = AdapterHistoryCustomer(
+                    this,
+                    mergedCustomerDataList,
+                    R.layout.card_user_with_status,
+                    { itemView, item, position ->
+                        val customerNameTextView = itemView.findViewById<TextView>(R.id.card_user_name_status)
+                        val customerImage = itemView.findViewById<ImageView>(R.id.image_user_status)
+                        val customerStatusTextView = itemView.findViewById<TextView>(R.id.card_user_status_status)
+                        customerNameTextView.text = item.name
+                        if (position >= statusList.size) {
+                            customerStatusTextView.text = statusList[position - statusList.size]
+                            if(statusList[position - statusList.size]=="canceled"||statusList[position - statusList.size]=="declined"){
+                                customerStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.red))
+                            }else if(statusList[position - statusList.size]=="completed"){
+                                customerStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
+                            }
+                        }
+                        Picasso.get().load(item.imageDownloadUrl).into(customerImage)
+                    },
+                    { item, position ->
+                        if(statusList.size > position){
+                            val intent = Intent(this, FinishOrder::class.java)
+                            intent.putExtra("menu", ongoingMenuDataList[position])
+
+                            // Fetch count order
+                            Function().fetchCountMerchantOrder(position) { countList ->
+                                intent.putExtra("count", countList)
+                                intent.putExtra("user|restaurantName", item.name)
+                                intent.putExtra("orderKey", ongoingOrderList[position])
+                                startActivity(intent)
+                            }
+                        }
                     }
-                }
-            )
+                )
 
-            recyclerView.adapter = newAdapterHistoryCustomer
+                recyclerView.adapter = newAdapterHistoryCustomer
+            }
         }
+
     }
 
     fun toHome(view: View) {
