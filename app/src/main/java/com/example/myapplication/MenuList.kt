@@ -25,8 +25,12 @@ class MenuList : ComponentActivity() {
 
         val restaurantImage: ImageView = findViewById(R.id.restaurant_dashboard_image)
         val restaurantName: TextView? = findViewById(R.id.restaurant_name)
+        val restaurantAddress: TextView? = findViewById(R.id.restaurant_address)
         if (restaurantName != null) {
             restaurantName.text = intent.getStringExtra("userName")
+        }
+        if (restaurantAddress != null) {
+            restaurantAddress.text = intent.getStringExtra("userAddress")
         }
         Picasso.get().load(intent.getStringExtra("imageDownloadUrl")).into(restaurantImage)
         val userKey = intent.getStringExtra("userKey")

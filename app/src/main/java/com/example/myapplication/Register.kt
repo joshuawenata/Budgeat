@@ -71,6 +71,7 @@ class Register : ComponentActivity() {
                     Function().writeDB("user", "$userKey/name", name)
                     Function().writeDB("user", "$userKey/phone", phone)
                     Function().writeDB("user", "$userKey/email", email)
+                    Function().writeDB("user", "$userKey/address", "Jl. Pasir Kaliki no. 25")
                     if(role=="customer"){
                         Function().writeDB("user", "$userKey/imageDownloadUrl", "https://firebasestorage.googleapis.com/v0/b/budgeat-25e02.appspot.com/o/images%2Fcustomer_dummy.jpg?alt=media&token=a3c8d195-7b9e-4977-b07f-d5ba4335a3f9&_gl=1*g5mut3*_ga*NzgwODU3NDU4LjE2OTQ1MjcyOTE.*_ga_CW55HF8NVT*MTY5NjczODExNi4zNy4xLjE2OTY3Mzk3NTAuNDAuMC4w")
                     }else{

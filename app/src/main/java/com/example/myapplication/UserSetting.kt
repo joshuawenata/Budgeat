@@ -32,11 +32,13 @@ class UserSetting : ComponentActivity() {
         val name: TextView = findViewById(R.id.user_name)
         val email: TextView = findViewById(R.id.user_email)
         val phone: TextView = findViewById(R.id.user_phone)
+        val address: TextView = findViewById(R.id.user_address)
         imageButton = findViewById(R.id.image_profile)
 
         Function().fetchSearchUserData(Function().getCurrentUserKey().toString()) { userDataList ->
             name.text = userDataList[0].name
             phone.text = userDataList[0].phone
+            address.text = userDataList[0].address
         }
         email.text = Function().currentUser()?.email
 
@@ -123,6 +125,15 @@ class UserSetting : ComponentActivity() {
         Function().fetchLocation(applicationContext, this){ addressLine ->
             val address: TextView = findViewById(R.id.user_address)
             address.text = addressLine
+            val userKey = Function().getCurrentUserKey()
+            Function().writeDB("user", "$userKey/address",addressLine)
         }
     }
+
+    fun toAi(view: View){
+        val intent = Intent(this, AiRecommendation::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 }
