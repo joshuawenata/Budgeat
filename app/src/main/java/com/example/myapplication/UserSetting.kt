@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.google.firebase.auth.ktx.auth
@@ -17,6 +16,7 @@ import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.UUID
+
 
 class UserSetting : ComponentActivity() {
     private val PICK_IMAGE_REQUEST = 1
@@ -117,5 +117,12 @@ class UserSetting : ComponentActivity() {
 
     fun changeImage(view: View) {
         openGallery()
+    }
+
+    fun fetchLoc(view: View) {
+        Function().fetchLocation(applicationContext, this){ addressLine ->
+            val address: TextView = findViewById(R.id.user_address)
+            address.text = addressLine
+        }
     }
 }

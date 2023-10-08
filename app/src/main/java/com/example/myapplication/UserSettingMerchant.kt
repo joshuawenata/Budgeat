@@ -120,4 +120,11 @@ class UserSettingMerchant : ComponentActivity() {
     fun changeImageMerchant(view: View) {
         openGallery()
     }
+
+    fun fetchLoc(view: View) {
+        Function().fetchLocation(applicationContext, this){ addressLine ->
+            val address: TextView = findViewById(R.id.user_address_merchant)
+            address.text = addressLine
+        }
+    }
 }
