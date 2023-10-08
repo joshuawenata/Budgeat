@@ -1,6 +1,8 @@
 package com.example. myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import java.math.BigDecimal
 import android.widget.TextView
 import android.widget.ImageView
@@ -8,6 +10,9 @@ import com.squareup.picasso.Picasso
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Function
+import com.example.myapplication.HistoryCustomer
+import com.example.myapplication.OrderList
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterCheckout
 import com.example.myapplication.`object`.Menu
@@ -65,6 +70,18 @@ class HistoryCustomerDetail : ComponentActivity() {
             recyclerView.adapter = newAdapter
         }
 
+    }
+
+    fun cancel(view: View) {
+        val restaurantKey: String? = intent.getStringExtra("user|restaurantKey")
+        val orderKey = intent.getStringExtra("orderKey")
+        if (restaurantKey != null && orderKey != null) {
+            Function().deleteOrderCustomer(restaurantKey, orderKey)
+        }
+
+        val intent = Intent(this, HistoryCustomer::class.java)
+        startActivity(intent)
+        finish()
     }
 }
 

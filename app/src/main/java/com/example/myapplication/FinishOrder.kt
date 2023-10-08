@@ -98,7 +98,7 @@ class FinishOrder : ComponentActivity() {
                 // Update the menu stock using the writeDB function
                 Function().writeDB("menu", "$merchantKey/$menuKey/menuStock", stockDifferenceString)
                 if (orderKey != null) {
-                    Function().deleteOrder(orderKey)
+                    Function().deleteOrder(orderKey, "declined")
                 }
                 counting++
             }
@@ -111,7 +111,7 @@ class FinishOrder : ComponentActivity() {
     fun finish(view: View) {
         val orderKey = intent.getStringExtra("orderKey")
         if (orderKey != null) {
-            Function().deleteOrder(orderKey)
+            Function().deleteOrder(orderKey, "completed")
         }
 
         val intent = Intent(this, OrderList::class.java)

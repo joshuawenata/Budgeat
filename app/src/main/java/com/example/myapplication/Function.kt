@@ -20,6 +20,7 @@ import android.location.Geocoder
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import java.io.IOException
 import java.util.Locale
@@ -199,7 +200,7 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchRestaurantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>) -> Unit) {
+    fun fetchCustomerOngoingData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<String>) -> Unit) {
         val myRef = Function().getDBRef("order")
         val restaurantDataList: ArrayList<User> = ArrayList()
         val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
@@ -208,6 +209,10 @@ class Function {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
                     val restaurantKey: String? = ds.key
+                    val orderList: ArrayList<String> = ArrayList()
+                    for (dss in ds.children) {
+                        dss.key?.let { orderList.add(it) }
+                    }
                     for (dss in ds.children) {
                         val userKey = dss.child("userKey").getValue(String::class.java)
                         if (userKey == Function().getCurrentUserKey() && restaurantKey != null) {
@@ -232,7 +237,7 @@ class Function {
                                     }
                                     menuDataList.add(temp)
                                     if (menuDataList.size == restaurantDataList.size) {
-                                        callback(restaurantDataList, menuDataList)
+                                        callback(restaurantDataList, menuDataList, orderList)
                                     }
                                 }
                             }
@@ -266,7 +271,6 @@ class Function {
                                 for(dsss in dss.children){
                                     i++
                                     if(dss.childrenCount.toInt()!=i){
-                                        Log.d("count", dsss.getValue(Int::class.java).toString())
                                         dsss.getValue(Int::class.java)?.let { countList.add(it) }
                                     }
                                 }
@@ -323,7 +327,7 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchOrderHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>) -> Unit) {
+    fun fetchMerchantOngoingData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<String>) -> Unit) {
         val myRef = Function().getDBRef("order")
         val userOrderDataList: ArrayList<User> = ArrayList()
         val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
@@ -332,9 +336,13 @@ class Function {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
                     val restaurantKey: String? = ds.key
+                    val orderList: ArrayList<String> = ArrayList()
+                    for (dss in ds.children) {
+                        dss.key?.let { orderList.add(it) }
+                    }
                     for (dss in ds.children) {
                         val userKey = dss.child("userKey").getValue(String::class.java)
-                        if (userKey != null && restaurantKey != null) {
+                        if (userKey != null && restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
                                     userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
@@ -349,12 +357,13 @@ class Function {
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
+                                            Log.d("menu", menuKey)
                                             temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
                                     if (menuDataList.size == userOrderDataList.size) {
-                                        callback(userOrderDataList, menuDataList)
+                                        callback(userOrderDataList, menuDataList, orderList)
                                     }
                                 }
                             }
@@ -371,8 +380,63 @@ class Function {
         myRef.addListenerForSingleValueEvent(valueEventListener)
     }
 
-    fun fetchOrderListData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<String>) -> Unit) {
-        val myRef = Function().getDBRef("order")
+    fun fetchCustomerHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<String>, ArrayList<String>) -> Unit) {
+        val myRef = Function().getDBRef("history")
+        val restaurantDataList: ArrayList<User> = ArrayList()
+        val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    val restaurantKey: String? = ds.key
+                    val orderList: ArrayList<String> = ArrayList()
+                    val statusList: ArrayList<String> = ArrayList()
+                    for (dss in ds.children) {
+                        dss.key?.let { orderList.add(it) }
+                        dss.child("status").getValue(String::class.java)?.let { statusList.add(it) }
+                    }
+                    for (dss in ds.children) {
+                        val userKey = dss.child("userKey").getValue(String::class.java)
+                        if (userKey == Function().getCurrentUserKey() && restaurantKey != null) {
+                            fetchSearchUserData(restaurantKey) { userDataList ->
+                                for (userData in userDataList) {
+                                    if (restaurantKey == userData.userKey) {
+                                        restaurantDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    }
+                                }
+                                // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
+                                fetchMenuData(restaurantKey) { menuList ->
+                                    val temp: ArrayList<Menu> = ArrayList()
+                                    for (menu in menuList) {
+                                        val menuKey = menu.menuKey
+                                        val menuName = menu.menuName
+                                        val menuDescription = menu.menuDescription
+                                        val menuStock = menu.menuStock
+                                        val menuImageUrl = menu.menuImageUrl
+                                        if(dss.child(menuKey).exists()){
+                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                        }
+                                    }
+                                    menuDataList.add(temp)
+                                    if (menuDataList.size == restaurantDataList.size) {
+                                        callback(restaurantDataList, menuDataList, orderList, statusList)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
+            }
+        }
+
+        myRef.addListenerForSingleValueEvent(valueEventListener)
+    }
+    fun fetchMerchantHistoryData(callback: (ArrayList<User>, ArrayList<ArrayList<Menu>>, ArrayList<String>, ArrayList<String>) -> Unit) {
+        val myRef = Function().getDBRef("history")
         val userOrderDataList: ArrayList<User> = ArrayList()
         val menuDataList: ArrayList<ArrayList<Menu>> = ArrayList()
 
@@ -381,12 +445,14 @@ class Function {
                 for (ds in dataSnapshot.children) {
                     val restaurantKey: String? = ds.key
                     val orderList: ArrayList<String> = ArrayList()
+                    val statusList: ArrayList<String> = ArrayList()
                     for (dss in ds.children) {
                         dss.key?.let { orderList.add(it) }
+                        dss.child("status").getValue(String::class.java)?.let { statusList.add(it) }
                     }
                     for (dss in ds.children) {
                         val userKey = dss.child("userKey").getValue(String::class.java)
-                        if (userKey != null && restaurantKey != null && restaurantKey.equals(Function().getCurrentUserKey())) {
+                        if (userKey != null && restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
                                     userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
@@ -406,7 +472,7 @@ class Function {
                                     }
                                     menuDataList.add(temp)
                                     if (menuDataList.size == userOrderDataList.size) {
-                                        callback(userOrderDataList, menuDataList, orderList)
+                                        callback(userOrderDataList, menuDataList, orderList, statusList)
                                     }
                                 }
                             }
@@ -449,7 +515,6 @@ class Function {
             return
         }
         task.addOnSuccessListener {
-            Log.d("address","test3")
             if(it != null){
                 val geocoder = Geocoder(context, Locale.getDefault())
                 var addresses: List<Address?>? = null
@@ -458,15 +523,10 @@ class Function {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-                Log.d("address","test2")
 
                 if (!addresses.isNullOrEmpty()) {
                     val address: Address? = addresses[0]
                     val addressLine: String? = address?.getAddressLine(0)  // Full address
-                    Log.d("address","test")
-                    if (addressLine != null) {
-                        Log.d("address",addressLine)
-                    }
 
 //                    val city: String? = address?.locality
 //                    val state: String? = address?.adminArea
@@ -482,11 +542,60 @@ class Function {
     }
 
 //    function to delete
-    fun deleteOrder(orderKey: String){
-        val databaseReference = getDBRef("order")
-        val nodeReference = databaseReference.child(getCurrentUserKey().toString()).child(orderKey)
+    fun deleteOrder(orderKey: String, status: String){
+        val sourceNodeReference = getCurrentUserKey()?.let { getDBRef("order").child(it).child(orderKey) }
+        val historyNodeReference = getCurrentUserKey()?.let { getDBRef("history").child(it).child(orderKey) }
 
-        nodeReference.removeValue()
+        sourceNodeReference?.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get the data from the source node
+                val orderData = dataSnapshot.value
+
+                // Write the data to the history node
+                historyNodeReference?.setValue(orderData)?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Data moved to history successfully
+                        writeDB("history",getCurrentUserKey()+"/$orderKey/status",status)
+                        // Now, you can delete the data from the source node if needed
+                        sourceNodeReference?.removeValue()
+                    } else {
+                        // Handle the error if the move to history fails
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors here
+            }
+        })
+    }
+
+    fun deleteOrderCustomer(restaurantKey:String, orderKey: String){
+        val sourceNodeReference = getDBRef("order").child(restaurantKey).child(orderKey)
+        val historyNodeReference = getDBRef("history").child(restaurantKey).child(orderKey)
+
+        sourceNodeReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get the data from the source node
+                val orderData = dataSnapshot.value
+
+                // Write the data to the history node
+                historyNodeReference.setValue(orderData).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Data moved to history successfully
+                        writeDB("history", "$restaurantKey/$orderKey/status","canceled")
+                        // Now, you can delete the data from the source node if needed
+                        sourceNodeReference.removeValue()
+                    } else {
+                        // Handle the error if the move to history fails
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors here
+            }
+        })
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,11 +15,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.Adapter
 import com.example.myapplication.adapter.AdapterHistoryCustomer
+import com.example.myapplication.`object`.Menu
+import com.example.myapplication.`object`.Order
+import com.example.myapplication.`object`.User
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.squareup.picasso.Picasso
 
@@ -30,32 +36,53 @@ class HistoryCustomer : ComponentActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.history_customer_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        Function().fetchRestaurantHistoryData { restaurantDataList, menuDataList ->
-            val newAdapterHistoryCustomer = AdapterHistoryCustomer(
-                this,
-                restaurantDataList,
-                R.layout.card_restaurant,
-                { itemView, item ->
-                    val restaurantNameTextView = itemView.findViewById<TextView>(R.id.card_restaurant_name)
-                    val restaurantImage = itemView.findViewById<ImageView>(R.id.image_restaurant)
-                    restaurantNameTextView.text = item.name
-                    Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
-                },
-                { item, position ->
-                    val intent = Intent(this, HistoryCustomerDetail::class.java)
-                    intent.putExtra("menu", menuDataList[position])
+        Function().fetchCustomerOngoingData { ongoingRestaurantDataList, ongoingMenuDataList, ongoingOrderList ->
+            Function().fetchCustomerHistoryData { historyRestaurantDataList, historyMenuDataList, historyOrderList, statusList ->
 
-                    // Fetch count order
-                    Function().fetchCountOrder(position) { countList ->
-                        intent.putExtra("count", countList)
-                        intent.putExtra("user|restaurantName", item.name)
-                        startActivity(intent)
+                // Merge data from ongoing and history sources
+                val mergedRestaurantDataList = historyRestaurantDataList + ongoingRestaurantDataList
+
+                val newAdapterHistoryCustomer = AdapterHistoryCustomer(
+                    this,
+                    mergedRestaurantDataList,
+                    R.layout.card_restaurant_with_status,
+                    { itemView, item, position ->
+                        val restaurantNameTextView = itemView.findViewById<TextView>(R.id.card_restaurant_name_status)
+                        val restaurantImage = itemView.findViewById<ImageView>(R.id.image_restaurant_status)
+                        val restaurantStatusTextView = itemView.findViewById<TextView>(R.id.card_restaurant_status_status)
+                        restaurantNameTextView.text = item.name
+                        if (position >= statusList.size) {
+                            restaurantStatusTextView.text = statusList[position - statusList.size]
+                            if(statusList[position - statusList.size]=="canceled"){
+                                restaurantStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.red))
+                            }else if(statusList[position - statusList.size]=="completed"){
+                                restaurantStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
+                            }
+                        }
+                        Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
+                    },
+                    { item, position ->
+                        if(statusList.size > position){
+                            val intent = Intent(this, HistoryCustomerDetail::class.java)
+                            intent.putExtra("menu", ongoingMenuDataList[position])
+
+                            // Fetch count order
+                            Function().fetchCountOrder(position) { countList ->
+                                intent.putExtra("count", countList)
+                                intent.putExtra("user|restaurantKey", item.userKey)
+                                intent.putExtra("user|restaurantName", item.name)
+                                intent.putExtra("orderKey", ongoingOrderList[position])
+                                startActivity(intent)
+                            }
+                        }
                     }
-                }
-            )
+                )
 
-            recyclerView.adapter = newAdapterHistoryCustomer
+                recyclerView.adapter = newAdapterHistoryCustomer
+            }
         }
+
+
     }
 
 

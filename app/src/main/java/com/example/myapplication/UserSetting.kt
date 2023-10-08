@@ -93,7 +93,6 @@ class UserSetting : ComponentActivity() {
 
     private fun uploadImageToFirebaseStorage(imageUri: Uri) {
         // Create a reference to the image in Firebase Storage
-        Log.d("test","1")
         val storage = Firebase.storage("gs://budgeat-25e02.appspot.com")
         val storageRef = storage.reference
         val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")

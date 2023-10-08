@@ -13,13 +13,13 @@ class AdapterHistoryCustomer<T>(
     private val context: Context,
     private val items: List<T>,
     private val itemLayoutResId: Int,
-    private val bindView: (View, T) -> Unit,
+    private val bindView: (View, T, Int) -> Unit,
     private val onItemClick: (T, Int) -> Unit,
 ) : RecyclerView.Adapter<AdapterHistoryCustomer<T>.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: T) {
-            bindView(itemView, item)
+            bindView(itemView, item, adapterPosition)
 
             // Set an onClickListener for the item view
             itemView.setOnClickListener {
