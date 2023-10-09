@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,7 @@ class Adapter<T>(
         return items.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun filterList(filteredData: List<T>) {
         items = filteredData
         notifyDataSetChanged()
