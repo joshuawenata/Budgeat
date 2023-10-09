@@ -62,9 +62,11 @@ class Function {
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
+                        val longitude = ds.child("longitude").getValue(String::class.java)
+                        val latitude = ds.child("latitude").getValue(String::class.java)
 
-                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null && longitude != null && latitude != null) {
+                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl, longitude, latitude))
                         }
                     }
                 }
@@ -118,9 +120,11 @@ class Function {
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
+                        val longitude = ds.child("longitude").getValue(String::class.java)
+                        val latitude = ds.child("latitude").getValue(String::class.java)
 
-                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null && longitude != null && latitude != null) {
+                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl, longitude, latitude))
                         }
                     }
                 }
@@ -150,9 +154,11 @@ class Function {
                         val role = ds.child("role").getValue(String::class.java)
                         val userKey = ds.child("userKey").getValue(String::class.java)
                         val imageDownloadUrl = ds.child("imageDownloadUrl").getValue(String::class.java)
+                        val longitude = ds.child("longitude").getValue(String::class.java)
+                        val latitude = ds.child("latitude").getValue(String::class.java)
 
-                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null) {
-                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl))
+                        if (name != null && email != null && phone != null && address != null && role != null && userKey != null && imageDownloadUrl != null && longitude != null && latitude != null) {
+                            userDataList.add(User( email, phone, address, name, role, userKey, imageDownloadUrl, longitude, latitude))
                         }
                     }
                 }
@@ -219,7 +225,7 @@ class Function {
                             fetchSearchUserData(restaurantKey) { userDataList ->
                                 for (userData in userDataList) {
                                     if (restaurantKey == userData.userKey) {
-                                        restaurantDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                        restaurantDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl, userData.longitude, userData.latitude))
                                     }
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
@@ -345,7 +351,7 @@ class Function {
                         if (userKey != null && restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
-                                    userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl, userData.longitude, userData.latitude))
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                 fetchMenuData(restaurantKey) { menuList ->
@@ -401,7 +407,7 @@ class Function {
                             fetchSearchUserData(restaurantKey) { userDataList ->
                                 for (userData in userDataList) {
                                     if (restaurantKey == userData.userKey) {
-                                        restaurantDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                        restaurantDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl, userData.longitude, userData.latitude))
                                     }
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
@@ -455,7 +461,7 @@ class Function {
                         if (userKey != null && restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
-                                    userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl))
+                                    userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl, userData.longitude, userData.latitude))
                                 }
                                 // Move this callback inside the fetchSearchUserData callback to ensure data consistency.
                                 fetchMenuData(restaurantKey) { menuList ->
@@ -516,6 +522,8 @@ class Function {
         }
         task.addOnSuccessListener {
             if(it != null){
+                writeDB("user", getCurrentUserKey()+"/latitude", it.latitude.toString())
+                writeDB("user", getCurrentUserKey()+"/longitude", it.longitude.toString())
                 val geocoder = Geocoder(context, Locale.getDefault())
                 var addresses: List<Address?>? = null
                 try {

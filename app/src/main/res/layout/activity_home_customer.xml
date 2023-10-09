@@ -13,22 +13,38 @@
         android:orientation="vertical"
         android:layout_marginTop="10dp">
 
-        <EditText
-            android:id="@+id/search_bar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/input_shape_grey"
-            android:hint="search your favourite restaurant"
-            android:textColorHint="@color/dark_grey"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:paddingHorizontal="20dp"
-            >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        </EditText>
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/input_shape_grey"
+                android:hint="search your favourite restaurant"
+                android:textColorHint="@color/dark_grey"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textAlignment="textStart"
+                android:paddingHorizontal="20dp"
+                />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/filtergps"
+                android:layout_marginRight="30dp"
+                android:background="@null"
+                android:onClick="sortByLoc">
+
+            </ImageButton>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_recyclerview"

@@ -6,5 +6,7 @@ class User(
     var name: String,
     var role: String,
     var userKey: String,
-    var imageDownloadUrl: String
+    var imageDownloadUrl: String,
+    var longitude: String,
+    var latitude: String
 )
