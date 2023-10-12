@@ -249,6 +249,8 @@ class Function {
                                     }
                                 }
                             }
+                        }else{
+                            callback(restaurantDataList, menuDataList, orderList)
                         }
                     }
                 }
@@ -366,7 +368,6 @@ class Function {
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            Log.d("menu", menuKey)
                                             temp.add(Menu(menuName, menuDescription, menuCategory, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
@@ -376,6 +377,8 @@ class Function {
                                     }
                                 }
                             }
+                        }else{
+                            callback(userOrderDataList, menuDataList, orderList)
                         }
                     }
                 }
@@ -433,6 +436,8 @@ class Function {
                                     }
                                 }
                             }
+                        }else{
+                            callback(restaurantDataList, menuDataList, orderList, statusList)
                         }
                     }
                 }
@@ -457,12 +462,11 @@ class Function {
                     val orderList: ArrayList<String> = ArrayList()
                     val statusList: ArrayList<String> = ArrayList()
                     for (dss in ds.children) {
-                        dss.key?.let { orderList.add(it) }
-                        dss.child("status").getValue(String::class.java)?.let { statusList.add(it) }
-                    }
-                    for (dss in ds.children) {
                         val userKey = dss.child("userKey").getValue(String::class.java)
                         if (userKey != null && restaurantKey != null && restaurantKey == Function().getCurrentUserKey()) {
+                            dss.key?.let { orderList.add(it) }
+                            dss.child("status").getValue(String::class.java)?.let { statusList.add(it) }
+
                             fetchSearchUserData(userKey) { userDataList ->
                                 for (userData in userDataList) {
                                     userOrderDataList.add(User(userData.email, userData.phone, userData.address, userData.name, userData.role, userData.userKey, userData.imageDownloadUrl, userData.longitude, userData.latitude))
@@ -487,6 +491,8 @@ class Function {
                                     }
                                 }
                             }
+                        }else{
+                            callback(userOrderDataList, menuDataList, orderList, statusList)
                         }
                     }
                 }

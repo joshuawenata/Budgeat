@@ -118,8 +118,6 @@ class HomeCustomer : ComponentActivity() {
                         results[0]
                     }
 
-                    Log.d("test",sortedData.size.toString())
-
                     adapter.filterList(sortedData)
                     adapter.notifyDataSetChanged()
                 }

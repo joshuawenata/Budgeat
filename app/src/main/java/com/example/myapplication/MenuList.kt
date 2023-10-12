@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.AdapterWithButtonAndPicker
@@ -55,6 +56,13 @@ class MenuList : ComponentActivity() {
                     menuCategoryTextView.text = item.menuCategory
                     menuStockTextView.text = item.menuStock
                     Picasso.get().load(item.menuImageUrl).into(menuImageView)
+
+                    if(menuCategoryTextView.text.equals("Halal")){
+                        menuCategoryTextView.setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                    }else{
+                        menuCategoryTextView.setTextColor(ContextCompat.getColor(applicationContext, R.color.red))
+                    }
+
                     buyList.add(0)
                 },
                 { item ->

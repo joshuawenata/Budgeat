@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -41,6 +42,12 @@ class HomeMerchant : ComponentActivity() {
                     menuCategoryTextView.text = item.menuCategory
                     menuStockTextView.text = item.menuStock
                     Picasso.get().load(item.menuImageUrl).into(menuImage)
+
+                    if(menuCategoryTextView.text.equals("Halal")){
+                        menuCategoryTextView.setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                    }else{
+                        menuCategoryTextView.setTextColor(ContextCompat.getColor(applicationContext, R.color.red))
+                    }
                 },
                 { item ->
                     // Handle item click here
