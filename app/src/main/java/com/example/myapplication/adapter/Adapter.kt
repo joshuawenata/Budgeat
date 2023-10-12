@@ -13,13 +13,13 @@ class Adapter<T>(
     private val context: Context,
     private var items: List<T>,
     private val itemLayoutResId: Int,
-    private val bindView: (View, T) -> Unit,
+    private val bindView: (View, T, Int) -> Unit,
     private val onItemClick: (T) -> Unit,
 ) : RecyclerView.Adapter<Adapter<T>.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: T) {
-            bindView(itemView, item)
+            bindView(itemView, item, adapterPosition)
 
             // Set an onClickListener for the item view
             itemView.setOnClickListener {
