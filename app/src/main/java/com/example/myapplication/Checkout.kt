@@ -85,18 +85,16 @@ class Checkout : ComponentActivity() {
             Function().writeDB("order", "$merchantKey/$orderKey/$menuKey", buyItem)
         }
         Function().writeDB("order", "$merchantKey/$orderKey/userKey", Function().getCurrentUserKey().toString())
-        Function().fetchMenuData(merchantKey){menuDBList ->
-            var counting = 0
-            for (i in menuList!!) {
-                val menuKey = i.menuKey
-                val stockDifference = Integer.parseInt(menuDBList!![counting].menuStock) - buyList!![counting]
-                val stockDifferenceString = stockDifference.toString()
+        var counting = 0
+        for (i in menuList!!) {
+            val menuKey = i.menuKey
+            val stockDifference = Integer.parseInt(menuList!![counting].menuStock) - buyList!![counting]
+            val stockDifferenceString = stockDifference.toString()
 
-                // Update the menu stock using the writeDB function
-                Function().writeDB("menu", "$merchantKey/$menuKey/menuStock", stockDifferenceString)
+            // Update the menu stock using the writeDB function
+            Function().writeDB("menu", "$merchantKey/$menuKey/menuStock", stockDifferenceString)
 
-                counting++
-            }
+            counting++
         }
         val intent = Intent(this, HomeCustomer::class.java)
         startActivity(intent)
