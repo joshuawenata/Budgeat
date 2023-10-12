@@ -185,12 +185,13 @@ class Function {
                         for (dss in ds.children) {
                             val menuName = dss.child("menuName").getValue(String::class.java)
                             val menuDescription = dss.child("menuDescription").getValue(String::class.java)
+                            val menuCategory = dss.child("menuCategory").getValue(String::class.java)
                             val menuStock = dss.child("menuStock").getValue(String::class.java)
                             val menuKey = dss.child("menuKey").getValue(String::class.java)
                             val menuImageUrl = dss.child("menuImageUrl").getValue(String::class.java)
 
-                            if( menuName != null && menuDescription != null && menuStock != null && menuKey != null && menuImageUrl != null) {
-                                menuList.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                            if( menuName != null && menuDescription != null && menuCategory != null && menuStock != null && menuKey != null && menuImageUrl != null) {
+                                menuList.add(Menu(menuName, menuDescription, menuCategory, menuStock, menuKey, menuImageUrl))
                             }
                         }
                     }
@@ -235,10 +236,11 @@ class Function {
                                         val menuKey = menu.menuKey
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
+                                        val menuCategory = menu.menuCategory
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuCategory, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
@@ -360,11 +362,12 @@ class Function {
                                         val menuKey = menu.menuKey
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
+                                        val menuCategory = menu.menuCategory
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
                                             Log.d("menu", menuKey)
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuCategory, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
@@ -417,10 +420,11 @@ class Function {
                                         val menuKey = menu.menuKey
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
+                                        val menuCategory = menu.menuCategory
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuCategory, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
@@ -470,10 +474,11 @@ class Function {
                                         val menuKey = menu.menuKey
                                         val menuName = menu.menuName
                                         val menuDescription = menu.menuDescription
+                                        val menuCategory = menu.menuCategory
                                         val menuStock = menu.menuStock
                                         val menuImageUrl = menu.menuImageUrl
                                         if(dss.child(menuKey).exists()){
-                                            temp.add(Menu(menuName, menuDescription, menuStock, menuKey, menuImageUrl))
+                                            temp.add(Menu(menuName, menuDescription, menuCategory, menuStock, menuKey, menuImageUrl))
                                         }
                                     }
                                     menuDataList.add(temp)
