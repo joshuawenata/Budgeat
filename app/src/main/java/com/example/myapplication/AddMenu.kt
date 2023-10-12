@@ -10,10 +10,12 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,6 +39,7 @@ class AddMenu : ComponentActivity() {
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var imageView: ImageView
     private lateinit var imageUrl: String
+    private lateinit var categorySpinner: Spinner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_menu)
@@ -46,6 +49,13 @@ class AddMenu : ComponentActivity() {
 
     private fun init() {
         imageView = findViewById(R.id.image_menu_add)
+        categorySpinner = findViewById(R.id.add_category)
+        val categories = arrayOf("Halal", "Non-Halal")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        categorySpinner.adapter = adapter
     }
 
     fun addMenuDB(view: View) {
@@ -85,6 +95,7 @@ class AddMenu : ComponentActivity() {
             Function().writeDB("menu", "$userKey/$menuKey/menuStock",menuStock)
             Function().writeDB("menu", "$userKey/$menuKey/menuKey",menuKey)
             Function().writeDB("menu", "$userKey/$menuKey/menuImageUrl",imageUrl)
+            Function().writeDB("menu","$userKey/$menuKey/menuCategory",categorySpinner.selectedItem.toString())
 
             val intent = Intent(this, HomeMerchant::class.java)
             startActivity(intent)

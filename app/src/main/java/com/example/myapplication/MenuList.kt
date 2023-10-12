@@ -45,13 +45,14 @@ class MenuList : ComponentActivity() {
                 R.layout.card_menu_with_button_and_picker,
                 { itemView, item ->
                     val menuNameTextView = itemView.findViewById<TextView>(R.id.card_menu_name_picker)
-                    val menuDescriptionTextView =
-                        itemView.findViewById<TextView>(R.id.card_menu_description_picker)
+                    val menuDescriptionTextView = itemView.findViewById<TextView>(R.id.card_menu_description_picker)
+                    val menuCategoryTextView = itemView.findViewById<TextView>(R.id.card_menu_category_picker)
                     val menuStockTextView = itemView.findViewById<TextView>(R.id.card_menu_stock_picker)
                     val menuImageView = itemView.findViewById<ImageView>(R.id.card_menu_image_picker)
 
                     menuNameTextView.text = item.menuName
                     menuDescriptionTextView.text = item.menuDescription
+                    menuCategoryTextView.text = item.menuCategory
                     menuStockTextView.text = item.menuStock
                     Picasso.get().load(item.menuImageUrl).into(menuImageView)
                     buyList.add(0)
