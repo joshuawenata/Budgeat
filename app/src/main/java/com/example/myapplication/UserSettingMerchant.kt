@@ -14,6 +14,7 @@ import androidx.activity.ComponentActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.UUID
@@ -22,6 +23,7 @@ class UserSettingMerchant : ComponentActivity() {
 
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var imageButton: CircleImageView
+    private var isImageLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,39 +46,68 @@ class UserSettingMerchant : ComponentActivity() {
         }
         email.text = Function().currentUser()?.email
 
-        // Fetch imageUrl from the database
         val currentUserKey = Function().getCurrentUserKey()
         Function().fetchDB("user/$currentUserKey/imageDownloadUrl") { imageUrl ->
             if (!imageUrl.isNullOrEmpty()) {
-                // If imageUrl exists, load and display the image using Picasso
-                Picasso.get().load(imageUrl).into(imageButton)
+                isImageLoading = true
+                Picasso.get().load(imageUrl).into(imageButton, object : Callback {
+                    override fun onSuccess() {
+                        isImageLoading = false
+                    }
+
+                    override fun onError(e: Exception?) {
+                        isImageLoading = false
+                    }
+                })
             }
         }
-
     }
 
-    fun toHome(view: View){
-        val intent = Intent(this, HomeMerchant::class.java)
-        startActivity(intent)
-        finishAffinity()
+    fun toHome(view: View) {
+        if (isImageLoading) {
+            // Image is still loading, don't proceed
+            // You can display a toast or show a message to inform the user
+            // In this example, we are just logging the message
+            Log.d("UserSettingMerchant", "Image is still loading. Please wait.")
+        } else {
+            val intent = Intent(this, HomeMerchant::class.java)
+            startActivity(intent)
+            finishAffinity()
+        }
     }
 
-    fun toHistory(view: View){
-        val intent = Intent(this, OrderList::class.java)
-        startActivity(intent)
-        finish()
+    fun toHistory(view: View) {
+        if (isImageLoading) {
+            // Image is still loading, don't proceed
+            // You can display a toast or show a message to inform the user
+            Log.d("UserSettingMerchant", "Image is still loading. Please wait.")
+        } else {
+            val intent = Intent(this, OrderList::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     fun LogoutMerchant(view: View) {
-        Firebase.auth.signOut()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finishAffinity()
+        if (isImageLoading) {
+            // Image is still loading, don't proceed
+            Log.d("UserSettingMerchant", "Image is still loading. Please wait.")
+        } else {
+            Firebase.auth.signOut()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finishAffinity()
+        }
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        if (isImageLoading) {
+            // Image is still loading, don't proceed
+            Log.d("UserSettingMerchant", "Image is still loading. Please wait.")
+        } else {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -94,27 +125,20 @@ class UserSettingMerchant : ComponentActivity() {
     }
 
     private fun uploadImageToFirebaseStorage(imageUri: Uri) {
-        // Create a reference to the image in Firebase Storage
         val storage = Firebase.storage("gs://budgeat-25e02.appspot.com")
         val storageRef = storage.reference
         val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")
 
-        // Upload the image
         imageRef.putFile(imageUri)
             .addOnSuccessListener { taskSnapshot ->
-                // Image upload successful
-                // You can get the download URL of the uploaded image like this:
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
-                    // Do something with the image URL, like saving it to a database or displaying it
                     Picasso.get().load(imageUrl).into(imageButton)
-                    Function().writeDB("user", Function().getCurrentUserKey()+"/imageDownloadUrl", imageUrl)
+                    Function().writeDB("user", Function().getCurrentUserKey() + "/imageDownloadUrl", imageUrl)
                 }
             }
             .addOnFailureListener { exception ->
-                // Image upload failed
-                // Handle the error here
-                Log.d("error", exception.toString())
+                Log.d("UserSettingMerchant", "Image upload failed. Error: ${exception.message}")
             }
     }
 
@@ -123,17 +147,21 @@ class UserSettingMerchant : ComponentActivity() {
     }
 
     fun fetchLoc(view: View) {
-        Function().fetchLocation(applicationContext, this){ addressLine ->
+        Function().fetchLocation(applicationContext, this) { addressLine ->
             val address: TextView = findViewById(R.id.user_address_merchant)
             address.text = addressLine
             val userKey = Function().getCurrentUserKey()
-            Function().writeDB("user", "$userKey/address",addressLine)
+            Function().writeDB("user", "$userKey/address", addressLine)
         }
     }
 
     fun Support(view: View) {
-        val intent = Intent(this, Support::class.java)
-        startActivity(intent)
-        finish()
+        if (isImageLoading) {
+            Log.d("UserSettingMerchant", "Image is still loading. Please wait.")
+        } else {
+            val intent = Intent(this, Support::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
