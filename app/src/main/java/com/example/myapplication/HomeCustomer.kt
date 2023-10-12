@@ -36,13 +36,17 @@ class HomeCustomer : ComponentActivity() {
                 this,
                 userDataList,
                 R.layout.card_restaurant,
-                { itemView, item ->
+                { itemView, item, position ->
                     val restaurantNameTextView =
                         itemView.findViewById<TextView>(R.id.card_restaurant_name)
                     val restaurantImage =
                         itemView.findViewById<ImageView>(R.id.image_restaurant)
                     restaurantNameTextView.text = item.name
                     Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
+                    if(position%2==0 && position!=0){
+                        val adView = itemView.findViewById<ImageView>(R.id.ad_view) // Example - replace with your ad view
+                        adView.visibility = View.VISIBLE
+                    }
                 },
                 { item ->
                     val intent = Intent(this, MenuList::class.java)
