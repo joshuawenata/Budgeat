@@ -36,33 +36,50 @@ class HistoryCustomer : ComponentActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.history_customer_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+        // Fetch customer ongoing data
         Function().fetchCustomerOngoingData { ongoingRestaurantDataList, ongoingMenuDataList, ongoingOrderList ->
-            Function().fetchCustomerHistoryData { historyRestaurantDataList, historyMenuDataList, historyOrderList, statusList ->
+            // Fetch customer history data
+            Function().fetchCustomerHistoryData { historyRestaurantDataList, _, _, statusList ->
 
-                // Merge data from ongoing and history sources
-                val mergedRestaurantDataList = historyRestaurantDataList + ongoingRestaurantDataList
-
+                // Create an adapter for the RecyclerView
                 val newAdapterHistoryCustomer = AdapterHistoryCustomer(
                     this,
-                    mergedRestaurantDataList,
+                    ongoingRestaurantDataList + historyRestaurantDataList,
                     R.layout.card_restaurant_with_status,
                     { itemView, item, position ->
-                        val restaurantNameTextView = itemView.findViewById<TextView>(R.id.card_restaurant_name_status)
-                        val restaurantImage = itemView.findViewById<ImageView>(R.id.image_restaurant_status)
-                        val restaurantStatusTextView = itemView.findViewById<TextView>(R.id.card_restaurant_status_status)
+                        val restaurantNameTextView =
+                            itemView.findViewById<TextView>(R.id.card_restaurant_name_status)
+                        val restaurantImage =
+                            itemView.findViewById<ImageView>(R.id.image_restaurant_status)
+                        val restaurantStatusTextView =
+                            itemView.findViewById<TextView>(R.id.card_restaurant_status_status)
                         restaurantNameTextView.text = item.name
-                        if (position >= statusList.size) {
-                            restaurantStatusTextView.text = statusList[position - statusList.size]
-                            if(statusList[position - statusList.size]=="canceled"){
-                                restaurantStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.red))
-                            }else if(statusList[position - statusList.size]=="completed"){
-                                restaurantStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
+
+                        val mergedRestaurantDataList = ongoingRestaurantDataList + historyRestaurantDataList
+
+                        if (mergedRestaurantDataList.size - position - 1 < statusList.size) {
+                            restaurantStatusTextView.text = statusList[position + statusList.size - mergedRestaurantDataList.size]
+                            if (statusList[position + statusList.size - mergedRestaurantDataList.size] == "canceled") {
+                                restaurantStatusTextView.setTextColor(
+                                    ContextCompat.getColor(
+                                        this,
+                                        R.color.red
+                                    )
+                                )
+                            } else if (statusList[position + statusList.size - mergedRestaurantDataList.size] == "completed") {
+                                restaurantStatusTextView.setTextColor(
+                                    ContextCompat.getColor(
+                                        this,
+                                        R.color.dark_grey
+                                    )
+                                )
                             }
                         }
+
                         Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
                     },
                     { item, position ->
-                        if(statusList.size > position){
+                        if (position < statusList.size) {
                             val intent = Intent(this, HistoryCustomerDetail::class.java)
                             intent.putExtra("menu", ongoingMenuDataList[position])
 
@@ -81,7 +98,6 @@ class HistoryCustomer : ComponentActivity() {
                 recyclerView.adapter = newAdapterHistoryCustomer
             }
         }
-
 
     }
 

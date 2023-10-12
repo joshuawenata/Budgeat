@@ -22,8 +22,7 @@ class OrderList : ComponentActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         Function().fetchMerchantOngoingData { ongoingCustomerDataList, ongoingMenuDataList, ongoingOrderList ->
-            Function().fetchMerchantHistoryData { historyCustomerDataList, historyMenuDataList, historyOrderList, statusList ->
-
+            Function().fetchMerchantHistoryData { historyCustomerDataList, _, _, statusList ->
                 // Merge data from ongoing and history sources
                 val mergedCustomerDataList = historyCustomerDataList + ongoingCustomerDataList
 
@@ -36,18 +35,18 @@ class OrderList : ComponentActivity() {
                         val customerImage = itemView.findViewById<ImageView>(R.id.image_user_status)
                         val customerStatusTextView = itemView.findViewById<TextView>(R.id.card_user_status_status)
                         customerNameTextView.text = item.name
-                        if (position >= statusList.size) {
-                            customerStatusTextView.text = statusList[position - statusList.size]
-                            if(statusList[position - statusList.size]=="canceled"||statusList[position - statusList.size]=="declined"){
+                        if (mergedCustomerDataList.size - position - 1 < statusList.size) {
+                            customerStatusTextView.text = statusList[position + statusList.size - mergedCustomerDataList.size]
+                            if(statusList[position + statusList.size - mergedCustomerDataList.size]=="canceled"||statusList[position + statusList.size - mergedCustomerDataList.size]=="declined"){
                                 customerStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.red))
-                            }else if(statusList[position - statusList.size]=="completed"){
+                            }else if(statusList[position + statusList.size - mergedCustomerDataList.size]=="completed"){
                                 customerStatusTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
                             }
                         }
                         Picasso.get().load(item.imageDownloadUrl).into(customerImage)
                     },
                     { item, position ->
-                        if(statusList.size > position){
+                        if(position < mergedCustomerDataList.size - statusList.size){
                             val intent = Intent(this, FinishOrder::class.java)
                             intent.putExtra("menu", ongoingMenuDataList[position])
 
