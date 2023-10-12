@@ -135,4 +135,10 @@ class UserSetting : ComponentActivity() {
         finish()
     }
 
+    fun Support(view: View) {
+        val intent = Intent(this, Support::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 }
