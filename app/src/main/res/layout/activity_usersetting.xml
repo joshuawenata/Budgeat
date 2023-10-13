@@ -125,7 +125,9 @@
                 android:text="Settings"
                 android:textColor="#1F2937"
                 android:textSize="15sp"
-                android:layout_marginHorizontal="20dp"/>
+                android:layout_marginHorizontal="20dp"
+                android:onClick="toUserSetting"
+                />
 
 
         </LinearLayout>
