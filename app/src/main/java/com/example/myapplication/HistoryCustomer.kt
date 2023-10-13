@@ -41,6 +41,9 @@ class HistoryCustomer : ComponentActivity() {
             // Fetch customer history data
             Function().fetchCustomerHistoryData { historyRestaurantDataList, _, _, statusList ->
 
+                Log.d("ongoing",ongoingRestaurantDataList.size.toString())
+                Log.d("history", historyRestaurantDataList.size.toString())
+
                 // Create an adapter for the RecyclerView
                 val newAdapterHistoryCustomer = AdapterHistoryCustomer(
                     this,
@@ -57,28 +60,69 @@ class HistoryCustomer : ComponentActivity() {
 
                         val mergedRestaurantDataList = ongoingRestaurantDataList + historyRestaurantDataList
 
-                        if (mergedRestaurantDataList.size - position - 1 < statusList.size) {
-                            restaurantStatusTextView.text = statusList[position + statusList.size - mergedRestaurantDataList.size]
-                            if (statusList[position + statusList.size - mergedRestaurantDataList.size] == "canceled" || statusList[position + statusList.size - mergedRestaurantDataList.size] == "declined") {
-                                restaurantStatusTextView.setTextColor(
-                                    ContextCompat.getColor(
-                                        this,
-                                        R.color.red
+                        if (position + 1 >= mergedRestaurantDataList.size - statusList.size) {
+                            if(mergedRestaurantDataList.size - position - 1 - statusList.size < 0){
+                                restaurantStatusTextView.text = statusList[0]
+                                if (statusList[0] == "canceled" || statusList[0] == "declined") {
+                                    restaurantStatusTextView.setTextColor(
+                                        ContextCompat.getColor(
+                                            this,
+                                            R.color.red
+                                        )
                                     )
-                                )
-                            } else if (statusList[position + statusList.size - mergedRestaurantDataList.size] == "completed") {
-                                restaurantStatusTextView.setTextColor(
-                                    ContextCompat.getColor(
-                                        this,
-                                        R.color.dark_grey
+                                } else if (statusList[0] == "completed") {
+                                    restaurantStatusTextView.setTextColor(
+                                        ContextCompat.getColor(
+                                            this,
+                                            R.color.dark_grey
+                                        )
                                     )
-                                )
+                                }
+                            }else if(mergedRestaurantDataList.size - position - 1 - statusList.size > statusList.size){
+                                restaurantStatusTextView.text = statusList[0]
+                                if (statusList[statusList.size] == "canceled" || statusList[statusList.size] == "declined") {
+                                    restaurantStatusTextView.setTextColor(
+                                        ContextCompat.getColor(
+                                            this,
+                                            R.color.red
+                                        )
+                                    )
+                                } else if (statusList[statusList.size] == "completed") {
+                                    restaurantStatusTextView.setTextColor(
+                                        ContextCompat.getColor(
+                                            this,
+                                            R.color.dark_grey
+                                        )
+                                    )
+                                }
+                            }else{
+                                restaurantStatusTextView.text = statusList[mergedRestaurantDataList.size - position - 1 - statusList.size]
+                                if (statusList[mergedRestaurantDataList.size - position - 1 - statusList.size] == "canceled" || statusList[mergedRestaurantDataList.size - position - 1 - statusList.size] == "declined") {
+                                    restaurantStatusTextView.setTextColor(
+                                        ContextCompat.getColor(
+                                            this,
+                                            R.color.red
+                                        )
+                                    )
+                                } else if (statusList[mergedRestaurantDataList.size - position - 1 - statusList.size] == "completed") {
+                                    restaurantStatusTextView.setTextColor(
+                                        ContextCompat.getColor(
+                                            this,
+                                            R.color.dark_grey
+                                        )
+                                    )
+                                }
                             }
                         }
 
                         Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
                     },
                     { item, position ->
+                        Log.d("ongoing",ongoingRestaurantDataList.size.toString())
+                        Log.d("history", historyRestaurantDataList.size.toString())
+                        Log.d("position",position.toString())
+                        val mergedRestaurantDataList = ongoingRestaurantDataList + historyRestaurantDataList
+                        Log.d("merged",mergedRestaurantDataList.toString())
                         if (position < ongoingRestaurantDataList.size + historyRestaurantDataList.size - statusList.size) {
                             val intent = Intent(this, HistoryCustomerDetail::class.java)
                             intent.putExtra("menu", ongoingMenuDataList[position])
