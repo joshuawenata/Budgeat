@@ -122,12 +122,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textColor="#1F2937"
-                android:textSize="15sp"
                 android:layout_marginHorizontal="20dp"
                 android:onClick="toUserSetting"
-                />
+                android:text="Settings"
+                android:textColor="#1F2937"
+                android:textSize="15sp" />
 
 
         </LinearLayout>
