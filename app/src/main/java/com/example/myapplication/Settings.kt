@@ -44,6 +44,10 @@ class Settings : ComponentActivity() {
 
         Function().writeDB("user", "$userKey/name", nameValue)
         Function().writeDB("user", "$userKey/phone", phoneValue)
+
+        val intent = Intent(this, HomeCustomer::class.java)
+        startActivity(intent)
+        finish()
     }
 
 

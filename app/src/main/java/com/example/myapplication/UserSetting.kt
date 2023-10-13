@@ -167,7 +167,7 @@ class UserSetting : ComponentActivity() {
     }
 
     fun toUserSetting(view: View) {
-        val intent = Intent(this, Support::class.java)
+        val intent = Intent(this, Settings::class.java)
         startActivity(intent)
         finish()
     }
