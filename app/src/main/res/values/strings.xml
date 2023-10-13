@@ -25,5 +25,6 @@
     <string name="title_activity_ai_recommendation">aiRecommendation</string>
     <string name="title_activity_forget_password">ForgetPassword</string>
     <string name="title_activity_support">Support</string>
+    <string name="title_activity_show_answer">ShowAnswer</string>
     <string name="title_activity_settings">Settings</string>
 </resources>

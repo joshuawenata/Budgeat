@@ -6,7 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".AiRecommendation">
 
-    <!-- Navbar at the Bottom -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/input_outline"
+            android:hint="Put Your Message Here..."
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:textColor="#374151"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:background="@null"
+            android:src="@drawable/send"
+            android:onClick="sendMessage"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/navbarLayout"
         android:layout_width="match_parent"

@@ -59,7 +59,7 @@ class HistoryCustomer : ComponentActivity() {
 
                         if (mergedRestaurantDataList.size - position - 1 < statusList.size) {
                             restaurantStatusTextView.text = statusList[position + statusList.size - mergedRestaurantDataList.size]
-                            if (statusList[position + statusList.size - mergedRestaurantDataList.size] == "canceled") {
+                            if (statusList[position + statusList.size - mergedRestaurantDataList.size] == "canceled" || statusList[position + statusList.size - mergedRestaurantDataList.size] == "declined") {
                                 restaurantStatusTextView.setTextColor(
                                     ContextCompat.getColor(
                                         this,
@@ -79,7 +79,7 @@ class HistoryCustomer : ComponentActivity() {
                         Picasso.get().load(item.imageDownloadUrl).into(restaurantImage)
                     },
                     { item, position ->
-                        if (position < statusList.size) {
+                        if (position < ongoingRestaurantDataList.size + historyRestaurantDataList.size - statusList.size) {
                             val intent = Intent(this, HistoryCustomerDetail::class.java)
                             intent.putExtra("menu", ongoingMenuDataList[position])
 
