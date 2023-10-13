@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import okhttp3.*
@@ -15,10 +17,12 @@ class ShowAnswer : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_answer)
+    }
 
-//        val prompt = intent.getStringExtra("messages")
-//        val answer = findViewById<TextView>(R.id.answer)
-
+    fun toHome(view: View) {
+        val intent = Intent(this, ShowAnswer::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }
